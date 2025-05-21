@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8"/>
+  <title>[[${config.getSite().getTitle()}]] - [[${config.getSite().getSubtitle()}]]</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/index.css"/>
+  <link rel="stylesheet" href="/style/product/aside.css">
+  <link rel="stylesheet" href="/style/common/header.css"/>
+  <link rel="stylesheet" href="/style/common/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <link
+      rel="icon"
+      type="image/png"
+      th:href="@{${config.getLogo().getFaviconLocation()}}"
+  />
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="/js/index.js"></script>
+  <script src="/js/common/header.js"></script>
+  <script src="/js/common/footer.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <div id="MAIN-area">
+    <div id="MAIN" th:if="${mainBanner != null}"
+         th:style="'background-color:' + ${mainBanner.getBannerInfo().getBackgroundColor()} + ';'">
+      <a th:href="${mainBanner.getBannerInfo().getUrl()}" target="_blank">
+        <img th:src="@{${mainBanner.getLocation()}}" class="main-banner-img"/>
+      </a>
+    </div>
+  </div>
+  <th:block th:insert="~{/common/header}"></th:block>
+  <main>
+    <!-- 슬라이드 배너 영역 -->
+    <div class="slider-container">
+      <div class="slider-track">
+        <img src="/images/banner1.PNG" alt="배너1"/>
+        <img src="/images/banner2.PNG" alt="배너2"/>
+        <img src="/images/banner3.PNG" alt="배너3"/>
+        <img src="/images/banner4.PNG" alt="배너4"/>
+        <img src="/images/banner5.PNG" alt="배너5"/>
+      </div>
+<!--    </div>-->
+    </div>
+      <section class="best-products">
+        <h2>베스트 상품</h2>
+        <div class="product-grid">
+          <div th:each="product : ${bestProducts}" class="product-card">
+            <!-- 실제 이미지 경로 사용 시 -->
+            <a th:href="@{/product/detail(id=${product.id})}">
+              <img th:src="@{${product.image.listThumbnailLocation}}" alt="이미지" />
+            </a>
+            <a th:href="@{/product/detail(id=${product.id})}">
+              <h4 th:text="${product.name}"></h4>
+            </a>
+            <p th:text="${product.description}"></p>
+
+            <div class="price">
+              <span class="discount" th:text="${product.discountRate + '%'}"></span>
+              <span class="original" style="text-decoration:line-through; color:gray;"
+                    th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}"></span>
+              <span class="final" style="color:red; font-weight:bold;"
+                    th:text="${#numbers.formatInteger(product.price * (100 - product.discountRate) / 100, 3, 'COMMA') + '원'}"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 할인상품 -->
+      <section>
+        <div class="product-list-wrapper">
+          <h2>🌟 할인상품</h2>
+
+          <div class="product-list">
+            <div th:each="product : ${discountProducts}" class="product-card">
+              <a th:href="@{/product/detail(id=${product.id})}">
+                <img th:src="@{${product.image.listThumbnailLocation}}" alt="이미지" />
+              </a>
+              <a th:href="@{/product/detail(id=${product.id})}">
+                <h4 th:text="${product.name}"></h4>
+              </a>
+              <p>
+          <span style="text-decoration: line-through; color: gray;"
+                th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}">
+          </span>
+                <br />
+                <span style="color: red; font-weight: bold;"
+                      th:text="${#numbers.formatInteger(product.price * (100 - product.discountRate) / 100, 3, 'COMMA') + '원'}">
+          </span>
+                <br />
+                <span th:text="${product.discountRate + '% 할인'}"></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 히트상품 -->
+    <section>
+      <div class="product-list-wrapper">
+        <h2>🔥 히트상품</h2>
+        <div class="product-list">
+          <div th:each="product : ${hitProducts}" class="product-card">
+            <a th:href="@{/product/detail(id=${product.id})}">
+              <img th:src="@{${product.image.listThumbnailLocation}}" alt="이미지" />
+            </a>
+            <a th:href="@{/product/detail(id=${product.id})}">
+              <h4 th:text="${product.name}"></h4>
+            </a>
+            <p>
+          <span th:if="${product.discountRate > 0}" style="text-decoration: line-through; color: gray;"
+                th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}">
+          </span>
+              <br th:if="${product.discountRate > 0}" />
+              <span style="color: red; font-weight: bold;"
+                    th:text="${#numbers.formatInteger(product.price * (100 - product.discountRate) / 100, 3, 'COMMA') + '원'}">
+          </span>
+              <br th:if="${product.discountRate > 0}" />
+              <span th:if="${product.discountRate > 0}"
+                    th:text="${product.discountRate + '% 할인'}"
+                    style="color: orange; font-size: 12px;">
+          </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+      <!-- 추가 추천상품 -->
+      <section>
+        <div class="product-list-wrapper">
+          <h2>🌟 추천상품</h2>
+          <div class="product-list">
+            <div th:each="product : ${recommendedProducts}" class="product-card">
+              <a th:href="@{/product/detail(id=${product.id})}">
+                <img th:src="@{${product.image.listThumbnailLocation}}" alt="이미지" />
+              </a>
+              <a th:href="@{/product/detail(id=${product.id})}">
+                <h4 th:text="${product.name}"></h4>
+              </a>
+              <p>
+          <span th:if="${product.discountRate > 0}" style="text-decoration: line-through; color: gray;"
+                th:text="${#numbers.formatInteger(product.price, 3, 'COMMA') + '원'}">
+          </span>
+                <br th:if="${product.discountRate > 0}" />
+                <span style="color: red; font-weight: bold;"
+                      th:text="${#numbers.formatInteger(product.price * (100 - product.discountRate) / 100, 3, 'COMMA') + '원'}">
+          </span>
+                <br th:if="${product.discountRate > 0}" />
+                <span th:if="${product.discountRate > 0}"
+                      th:text="${product.discountRate + '% 할인'}"
+                      style="color: orange; font-size: 12px;">
+          </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+  </main>
+  <th:block th:insert="~{/common/footer}"></th:block>
+</div>
+</body>
+</html>
+<script>
+  const track = document.querySelector('.slider-track');
+  const slides = document.querySelectorAll('.slider-track img');
+  let currentIndex = 0;
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }, 3000); // 3초마다 슬라이드 전환
+</script>

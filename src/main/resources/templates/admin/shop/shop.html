@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>상점관리 > 상점관리</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link rel="stylesheet" href="/style/admin/shop/shop.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+  <script type="module" src="/js/common/admin/modal.mjs"></script>
+  <script
+      type="module"
+      src="/js/common/admin/registryModal.js"
+  ></script>
+  <script src="/js/admin/seller/delete.js"></script>
+  <script src="/js/admin/seller/updateStatus.js"></script>
+  <script src="/js/common/admin/checkbox.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/admin/header}"></th:block>
+  <main>
+    <th:block th:insert="~{/common/admin/aside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>상점목록</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp; </a>
+              <a href="#">상점관리&nbsp;>&nbsp; </a>
+              <a href="#">상점목록</a>
+            </span>
+      </div>
+      <div class="content">
+        <form th:action="@{/admin/seller/search}" method="GET" id="search-area">
+          <select name="filter" class="search-filter">
+            <option value="companyName">상호명</option>
+            <option value="ceo">대표자</option>
+            <option value="businessNumber">사업자등록번호</option>
+            <option value="contact">연락처</option>
+            <option value="keyword">키워드</option>
+          </select>
+          <input
+              type="text"
+              class="search-input"
+              name="keyword"
+              placeholder="검색어 입력"
+          />
+          <input type="submit" class="search-submit-btn" value="검색"/>
+        </form>
+        <div id="legends-area">
+          <span class="legend green"></span>
+          <span>운영중</span>
+          <span class="legend red"></span>
+          <span>운영중지</span>
+          <span class="legend blue"></span>
+          <span>운영준비</span>
+        </div>
+        <table>
+          <tr>
+            <th>
+              <input
+                  type="checkbox"
+                  class="select-all"
+                  name="selected"
+                  onclick="return false"
+              />
+            </th>
+            <th>상호명</th>
+            <th>대표</th>
+            <th>사업자등록번호</th>
+            <th>통신판매업번호</th>
+            <th>연락처</th>
+            <th>운영</th>
+            <th>관리</th>
+          </tr>
+
+          <tr th:each="seller : ${sellers}">
+            <td>
+              <input type="checkbox"
+                     class="item-checkbox"
+                     th:value="${seller.getSellerId().getBusinessNumber()}"/>
+            </td>
+            <td th:text="${seller.getCompanyName()}">(주)다나와</td>
+            <td th:text="${seller.getCeo()}">정우성</td>
+            <td id="business-number"
+                th:text="${seller.getSellerId().getBusinessNumber()}">112-12-12345
+            </td>
+            <td th:text="${seller.getSellerNumber()}">2024-서울강남-04433</td>
+            <td th:text="${seller.getSellerId().getUser().getContact()}">010-1234-1001
+            </td>
+            <td>
+              <span class="legend green" th:if="${seller.getStatus().equals('run')}"></span>
+              <span class="legend red" th:if="${seller.getStatus().equals('stopped')}"></span>
+              <span class="legend blue" th:if="${seller.getStatus().equals('ready')}"></span>
+            </td>
+            <td>
+              <button class="manage-btn shutdown red"
+                      th:if="${seller.getStatus().equals('run')}" name="stopped">중단
+              </button>
+              <button class="manage-btn continue blue"
+                      th:if="${seller.getStatus().equals('run') or seller.getStatus().equals('stopped')}"
+                      name="run">
+                개시
+              </button>
+              <button class="manage-btn grant green" th:if="${seller.getStatus().equals('ready')}"
+                      name="run">
+                승인
+              </button>
+            </td>
+          </tr>
+        </table>
+        <div class="crud-btn-area">
+          <button class="enroll-btn delete-btn">선택삭제</button>
+          <button class="enroll-btn register-btn registry-modal-btn">
+            상점등록
+          </button>
+        </div>
+      </div>
+      <div class="registry-modal shop-registry" title="상점등록">
+        <form action="/admin/seller/register" method="POST">
+          <table>
+            <tr>
+              <th>아이디</th>
+              <td>
+                <input name="sellerId.user.id" type="text"/>
+              </td>
+            </tr>
+            <tr>
+              <th>비밀번호</th>
+              <td>
+                <input type="password" name="sellerId.user.password"/>
+              </td>
+            </tr>
+            <tr>
+              <th>비밀번호 확인</th>
+              <td>
+                <input type="password" name="passwordConfirm"/>
+              </td>
+            </tr>
+          </table>
+          <table>
+            <tr>
+              <th>상호명</th>
+              <td>
+                <input
+                    name="companyName"
+                    type="text"
+                    placeholder="상호명 입력 예: (주) 상호명"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>대표</th>
+              <td>
+                <input name="ceo" type="text" placeholder="대표이사 성명"/>
+              </td>
+            </tr>
+            <tr>
+              <th>사업자등록번호</th>
+              <td>
+                <input name="sellerId.businessNumber" type="text" placeholder="사업자등록번호 입력"/>
+              </td>
+            </tr>
+            <tr>
+              <th>통신판매업번호</th>
+              <td>
+                <input name="sellerNumber" type="text" placeholder="통신판매업번호 입력"/>
+              </td>
+            </tr>
+            <tr>
+              <th>이메일</th>
+              <td>
+                <input type="email" name="sellerId.user.email" placeholder="이메일 입력"/>
+              </td>
+            </tr>
+            <tr>
+              <th>전화번호</th>
+              <td>
+                <input name="sellerId.user.contact" type="text" placeholder="전화번호 입력"/>
+              </td>
+            </tr>
+            <tr>
+              <th>팩스</th>
+              <td>
+                <input name="fax" type="text" placeholder="팩스번호 입력"/>
+              </td>
+            </tr>
+            <tr>
+              <th>주소</th>
+              <td>
+                <input
+                    type="text"
+                    name="sellerId.user.zip"
+                    placeholder="우편번호 입력"
+                    style="display: block; margin-bottom:5px"/>
+                <input
+                    type="text"
+                    name="sellerId.user.address"
+                    placeholder="기본주소 검색"
+                    style="display: block; margin-bottom: 5px"
+                />
+                <input
+                    name="sellerId.user.addressDetail"
+                    type="text"
+                    placeholder="상세주소 입력"
+                    style="display: block"
+                />
+              </td>
+            </tr>
+          </table>
+          <input
+              type="submit"
+              class="modal-register-btn"
+              value="등록하기"
+          />
+        </form>
+      </div>
+      <div class="pagination">
+        <a class="page move"
+           th:href="@{/admin/seller/list(page=${sellers.getPageable().first().getPageNumber() + 1})}"
+           th:if="${sellers.hasPrevious()}">
+          <i class="fa-solid fa-angles-left"></i>
+        </a>
+        <a class="page move" th:href="@{/admin/seller/list(page=${currentPage - 1})}"
+           th:if="${sellers.hasPrevious()}">
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <span th:each="pageNum : ${#numbers.sequence(1, sellers.getTotalPages())}">
+            <a th:class="${currentPage == pageNum ? 'page current-page' : 'page'}"
+               th:href="@{/admin/seller/list(page=${pageNum})}"
+               th:text="${pageNum}">1</a>
+        </span>
+        <a class="page move" th:href="@{/admin/seller/list(page=${currentPage + 1})}"
+           th:if="${sellers.hasNext()}">
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <a class="page move" th:href="@{/admin/seller/list(page=${sellers.getTotalPages()})}"
+           th:if="${sellers.hasNext()}">
+          <i class="fa-solid fa-angles-right"></i>
+        </a>
+      </div>
+    </section>
+  </main>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>

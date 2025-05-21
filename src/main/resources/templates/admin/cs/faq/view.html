@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>자주묻는질문 보기</title>
+    <link rel="stylesheet" href="/style/init.css" />
+    <link rel="stylesheet" href="/style/common/admin/header.css" />
+    <link rel="stylesheet" href="/style/common/admin/aside.css" />
+    <link rel="stylesheet" href="/style/common/admin/content.css" />
+    <link rel="stylesheet" href="/style/common/admin/footer.css" />
+    <link rel="stylesheet" href="/style/admin/cs/notice/view.css" />
+    <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="/js/admin/config/aside-drop.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <th:block th:insert="~{/common/admin/header}"></th:block>
+      <main>
+        <th:block th:insert="~{/common/admin/aside}"></th:block>
+        <section id="content-area">
+          <div class="content-area-title">
+            <h3>자주묻는질문 보기</h3>
+            <span>
+              <a href="#">HOME&nbsp;>&nbsp;</a>
+              <a href="#">고객센터&nbsp;>&nbsp;</a>
+              <a href="#">자주묻는질문</a>
+            </span>
+          </div>
+          <div class="content">
+            <table class="post-form-table">
+              <tbody>
+                <tr>
+                  <th>유형</th>
+                  <td>
+                    <input type="text" style="border: none" name="name" th:value="${faqDTO.name} + ' - ' + ${faqDTO.subtype_name}" readonly/>
+                  </td>
+                </tr>
+                <tr>
+                  <th>제목</th>
+                  <td><input type="text" name="title" style="border: none" th:value="${faqDTO.title}" readonly/></td>
+                </tr>
+                <tr>
+                  <th>내용</th>
+                  <td>
+                    <textarea name="content" style="border: none" id="notice-content" readonly>[[${faqDTO.content}]]</textarea>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="crud-btn-area">
+              <a class="enroll-btn delete-btn" th:href="@{/admin/cs/faq/delete(id=${faqDTO.id})}">삭제</a>
+              <a class="enroll-btn delete-btn" th:href="@{/admin/cs/faq/modify(id=${faqDTO.id})}">수정</a>
+              <a class="enroll-btn register-btn" th:href="@{/admin/cs/faq/list}">목록</a>
+            </div>
+          </div>
+        </section>
+      </main>
+      <th:block th:insert="~{/common/admin/footer}"></th:block>
+    </div>
+  </body>
+</html>

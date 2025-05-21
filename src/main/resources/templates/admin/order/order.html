@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>주문관리 > 주문현황</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link rel="stylesheet" href="/style/admin/order/order.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+  <script type="module" src="/js/common/admin/modal.mjs"></script>
+  <script type="module" src="/js/admin/order/orderDetail.js"></script>
+  <script type="module" src="/js/admin/order/shipment.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:if="${role.equals('ROLE_ADMIN')}" th:insert="~{/common/admin/header}"></th:block>
+  <th:block th:if="${role.equals('ROLE_SELLER')}"
+            th:insert="~{/common/admin/sellerHeader}"></th:block>
+  <main>
+    <th:block th:if="${role.equals('ROLE_ADMIN')}" th:insert="~{/common/admin/aside}"></th:block>
+    <th:block th:if="${role.equals('ROLE_SELLER')}"
+              th:insert="~{/common/admin/sellerAside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>주문현황</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp; </a>
+              <a href="#">주문관리&nbsp;>&nbsp; </a>
+              <a href="#">주문현황</a>
+            </span>
+      </div>
+      <div class="content">
+        <form action="/admin/order/search" method="GET" id="search-area">
+          <select name="filter" class="search-filter">
+            <option value="orderNumber">주문번호</option>
+            <option value="memberId">주문자</option>
+            <option value="memberName">주문자명</option>
+          </select>
+          <input
+              type="text"
+              name="keyword"
+              class="search-input"
+              placeholder="검색어 입력"
+          />
+          <input type="submit" class="search-submit-btn" value="검색"/>
+        </form>
+        <table>
+          <tbody>
+          <tr>
+            <th>주문번호</th>
+            <th>주문자</th>
+            <th>주문자명</th>
+            <th>주문합계</th>
+            <th>주문건수</th>
+            <th>결제수단</th>
+            <th>주문상태</th>
+            <th>주문일</th>
+            <th>배송</th>
+          </tr>
+          <tr th:each="wrapper : ${pages}">
+            <td>
+              <a class="order-detail"
+                 th:href="@{/api/admin/order/detail(id=${wrapper.order.getOrderNumber()})}"
+                 th:text="${wrapper.order.getOrderNumber()}">
+                10121211341</a>
+            </td>
+            <td th:text="${wrapper.order.getMember().getMemberId().getUser().getId()}">abc123</td>
+            <td th:text="${wrapper.order.getMember().getName()}">김유신</td>
+            <td th:text="${#numbers.formatCurrency(wrapper.getTotalPrice())}">102,900</td>
+            <td th:text="${wrapper.getItemCount()}">2</td>
+            <td th:text="${wrapper.getOrder().getPayment()}">신용카드</td>
+            <td class="text-green" th:if="${wrapper.getOrder().getStatus().getId() == 1}">결제대기</td>
+            <td class="text-green" th:if="${wrapper.getOrder().getStatus().getId() == 2}">결제완료</td>
+            <td class="text-green" th:if="${wrapper.getOrder().getStatus().getId() == 3}">배송준비</td>
+            <td class="text-green" th:if="${wrapper.getOrder().getStatus().getId() == 4}">배송중</td>
+            <td class="text-green" th:if="${wrapper.getOrder().getStatus().getId() == 5}">배송완료</td>
+            <td class="text-green" th:if="${wrapper.getOrder().getStatus().getId() == 6}">구매확정</td>
+            <td class="text-red" th:if="${wrapper.getOrder().getStatus().getId() == 7}">취소요청</td>
+            <td class="text-gray" th:if="${wrapper.getOrder().getStatus().getId() == 8}">취소완료</td>
+            <td class="text-red" th:if="${wrapper.getOrder().getStatus().getId() == 9}">환불요청</td>
+            <td class="text-gray" th:if="${wrapper.getOrder().getStatus().getId() == 10}">환불완료</td>
+            <td class="text-red" th:if="${wrapper.getOrder().getStatus().getId() == 11}">교환요청</td>
+            <td class="text-gray" th:if="${wrapper.getOrder().getStatus().getId() == 12}">교환완료</td>
+            <td th:text="${#temporals.format(wrapper.getOrder().getOrderDate(), 'yyyy-MM-dd')}">
+              0000-00-00
+              00:00:00
+            </td>
+            <td>
+              <button class="control-btn default ship-btn"
+                      th:if="${wrapper.getOrder().getStatus().getId() == 2}">
+                배송하기
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="shipment-modal" title="배송입력">
+      <div class="content">
+        <form th:action="@{/admin/delivery/register}" method="POST" class="post-form">
+          <table class="post-form-table">
+            <tbody>
+            <tr>
+              <th>주문번호</th>
+              <td>
+                <input type="text" name="order.orderNumber"/>
+              </td>
+            </tr>
+            <tr>
+              <th>수령인</th>
+              <td>
+                <input type="text" name="order.recipientName"/>
+              </td>
+            </tr>
+            <tr>
+              <th>수령인 연락처</th>
+              <td>
+                <input type="text" name="order.recipientContact"/>
+              </td>
+            </tr>
+            <tr>
+              <th>우편번호</th>
+              <td>
+                <input type="text" name="order.recipientZip"/>
+              </td>
+            </tr>
+            <tr>
+              <th>기본주소</th>
+              <td>
+                <input
+                    type="text"
+                    name="order.recipientAddress"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>상세주소</th>
+              <td>
+                <input type="text"
+                       name="order.recipientAddressDetail"/>
+              </td>
+            </tr>
+            <tr>
+              <th>택배사</th>
+              <td>
+                <select
+                    name="deliveryCompany.id"
+                    class="category-selector"
+                    id="shipment-company"
+                >
+                  <option value="1">롯데택배</option>
+                  <option value="2">한진택배</option>
+                  <option value="3">cj 대한통운</option>
+                  <option value="4">우체국택배</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>운송장번호</th>
+              <td>
+                <input type="text" name="deliveryNumber" placeholder="송장번호 입력"/>
+              </td>
+            </tr>
+            <tr>
+              <th>기타</th>
+              <td>
+                      <textarea
+                          name="order.description"
+                          id="shipment-desc"
+                      ></textarea>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <input type="submit" class="post-submit-btn" value="등록하기"/>
+        </form>
+      </div>
+    </div>
+    <div class="order-detail-modal modal" title="주문상세">
+      <div class="content">
+        <div class="content-title">
+          <h3>상품정보</h3>
+        </div>
+        <table>
+          <tbody id="iteration-point">
+          <tr>
+            <th>상품 이미지</th>
+            <th>상품번호</th>
+            <th>상품명</th>
+            <th>판매자</th>
+            <th>가격</th>
+            <th>할인</th>
+            <th>수량</th>
+            <th>배송비</th>
+            <th>결제금액</th>
+          </tr>
+          </tbody>
+        </table>
+        <div class="total-price">
+          <ul>
+            <li>
+              <span>총 상품금액</span>
+              <span id="total-product-price">107,000원</span>
+            </li>
+            <li>
+              <span>총 할인금액</span>
+              <span id="total-discounted-price">-7,100원</span>
+            </li>
+            <li>
+              <span>배송비</span>
+              <span id="total-delivery-fee">3,000원</span>
+            </li>
+            <li>
+              <span class="total">총 결제금액</span>
+              <span id="total-price">102,900원</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="content">
+        <div class="content-title">
+          <h3>결제정보</h3>
+        </div>
+        <table>
+          <tbody>
+          <tr>
+            <th>주문번호</th>
+            <td class="order-number">10121211341</td>
+          </tr>
+          <tr>
+            <th>결제방법</th>
+            <td class="order-payment">신용카드 / 1234 **** **** 4432</td>
+          </tr>
+          <tr>
+            <th>주문자/연락처</th>
+            <td class="order-member-name-contact">김유신 / 010-1234-1234</td>
+          </tr>
+          <tr>
+            <th>결제상태</th>
+            <td class="text-green order-status">결제완료</td>
+          </tr>
+          <tr>
+            <th>총 결제금액</th>
+            <td>
+              <span class="text-red order-info-total-price"> 102,900 </span>
+              <span>원</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="content">
+        <div class="content-title">
+          <h3>배송정보</h3>
+        </div>
+        <table id="delivery-info">
+          <tbody>
+          <tr>
+            <th>수취인</th>
+            <td class="recipient-name"></td>
+          </tr>
+          <tr>
+            <th>연락처</th>
+            <td class="recipient-contact"></td>
+          </tr>
+          <tr>
+            <th>배송지 주소</th>
+            <td class="recipient-address"></td>
+          </tr>
+          <tr>
+            <th>배송지 상세주소</th>
+            <td class="recipient-address-detail"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <section class="pagination">
+    <a class="page move"
+       th:href="@{/admin/order/list(page=${pages.getPageable().first().getPageNumber() + 1})}"
+       th:if="${pages.hasPrevious()}"
+    >
+      <i class="fa-solid fa-angles-left"></i>
+    </a>
+    <a class="page move" th:href="@{/admin/order/list(page=${currentPage - 1})}"
+       th:if="${pages.hasPrevious()}">
+      <i class="fa-solid fa-chevron-left"></i>
+    </a>
+    <span th:each="pageNum : ${#numbers.sequence(1, pages.getTotalPages())}">
+            <a th:class="${currentPage == pageNum ? 'page current-page' : 'page'}"
+               th:href="@{/admin/order/list(page=${pageNum})}"
+               th:text="${pageNum}">1</a>
+        </span>
+    <a class="page move" th:href="@{/admin/order/list(page=${currentPage + 1})}"
+       th:if="${pages.hasNext()}">
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+    <a class="page move"
+       th:href="@{/admin/order/list(page=${pages.getTotalPages()})}"
+       th:if="${pages.hasNext()}">
+      <i class="fa-solid fa-angles-right"></i>
+    </a>
+  </section>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>

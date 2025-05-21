@@ -1,0 +1,37 @@
+/* 사이드 */
+.aside1 {
+    width: 300px;
+}
+
+.aside1 > div {
+    width: 180px;
+}
+
+.bestPro {
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.bestPro > p {
+    margin-bottom: 15px;
+}
+
+.bestPro > div{
+    margin-left: 10px;
+}
+
+.items {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+img {
+    width: 70%;
+    height: 100px;
+}
+
+.sale {
+    color: red;
+}

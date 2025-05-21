@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>쿠폰관리 > 쿠폰목록</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/cspagination.css"/>
+  <link rel="stylesheet" href="/style/admin/coupon/coupon.css"/>
+  <link
+          rel="icon"
+          href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+          rel="stylesheet"
+          href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+          crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+  <script type="module" src="/js/common/admin/modal.mjs"></script>
+  <script
+          type="module"
+          src="/js/common/admin/registryModal.js"
+  ></script>
+  <script type="module" src="/js/admin/coupon/coupon.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/admin/header}"></th:block>
+  <main>
+    <th:block th:insert="~{/common/admin/aside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>쿠폰목록</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp; </a>
+              <a href="#">쿠폰관리&nbsp;>&nbsp; </a>
+              <a href="#">쿠폰목록</a>
+            </span>
+      </div>
+      <div class="content">
+        <div class="content-title">
+          <h3>쿠폰목록</h3>
+        </div>
+        <form th:action="@{/admin/coupon/search}" method="GET" id="search-area">
+          <select name="searchType" class="search-filter">
+            <option value="id">쿠폰번호</option>
+            <option value="name">쿠폰명</option>
+            <option value="seller_id">발급자</option>
+          </select>
+          <input
+                  type="text"
+                  name="keyword"
+                  class="search-input"
+                  placeholder="검색어 입력"
+          />
+          <input type="submit" class="search-submit-btn" value="검색"/>
+        </form>
+        <table>
+          <tbody>
+          <tr>
+            <th>쿠폰번호</th>
+            <th>쿠폰종류</th>
+            <th>쿠폰명</th>
+            <th>혜택</th>
+            <th>사용기간</th>
+            <th>발급자</th>
+            <th>발급 수</th>
+            <th>사용 수</th>
+            <th>상태</th>
+            <th>발급일</th>
+            <th>관리</th>
+          </tr>
+          <tr th:each="coupon, i:${pageResponseDTO.dtoList}">
+            <td>
+              <a href="#" class="coupon-detail anchor-with-underline" th:data-id="${coupon.id}">
+                [[${coupon.id}]]
+              </a>
+            </td>
+            <td>[[${coupon.coupon_type.name}]]</td>
+            <td>[[${coupon.name}]]</td>
+            <td>[[${coupon.coupon_benefit.benefit}]]</td>
+            <td>[[${coupon.from}]] ~ [[${coupon.to}]]</td>
+            <td>[[${coupon.seller_id}]]</td>
+            <td>[[${coupon.issued_amount}]]</td>
+            <td>[[${coupon.used_amount}]]</td>
+            <td th:if="${coupon.status == 'issued'}" class="text-green">발급중</td>
+            <td th:if="${coupon.status == 'used'}" class="text-dark-gray">종료</td>
+            <td>[[${coupon.issued_date}]]</td>
+            <td th:if="${coupon.status == 'issued'}">
+              <button class="control-btn default" th:attr="data-coupon-id=${coupon.id}" onclick="updateStatus(this)">
+                종료
+              </button>
+            </td>
+            <td th:if="${coupon.status == 'used'}">
+              <button style="background-color: #808080" class="control-btn default" onclick="alert('이미 종료된 쿠폰입니다.')">
+                종료
+              </button>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+        <div class="crud-btn-area">
+          <button class="enroll-btn register-btn registry-modal-btn">
+            쿠폰등록
+          </button>
+        </div>
+      </div>
+    </section>
+    <div class="modal coupon-detail-modal">
+      <div class="content">
+        <table>
+          <tbody>
+          <tr>
+            <th>쿠폰번호</th>
+            <td class="coupon-id"></td>
+            <th>발급처</th>
+            <td class="coupon-seller-id"></td>
+          </tr>
+          <tr>
+            <th>쿠폰종류</th>
+            <td class="coupon-type-id"></td>
+          </tr>
+          <tr>
+            <th>쿠폰명</th>
+            <td class="coupon-name-id"></td>
+          </tr>
+          <tr>
+            <th>혜택</th>
+            <td class="coupon-benefit-id"></td>
+          </tr>
+          <tr>
+            <th>사용기간</th>
+            <td class="coupon-period"></td>
+          </tr>
+          <tr>
+            <th>유의사항</th>
+            <td class="coupon-description"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="registry-modal coupon-registry-modal">
+      <div class="content">
+        <form th:action="@{/admin/coupon/coupon/register}" method="POST" enctype="multipart/form-data" class="post-form">
+          <table class="post-form-table">
+            <tbody>
+            <tr>
+              <th>발급처</th>
+              <td>
+                <input type="text" name="seller_id" placeholder="(주)다있어"/>
+              </td>
+            </tr>
+            <tr>
+              <th>쿠폰종류</th>
+              <td>
+                <select
+                        name="type_id"
+                        id="coupon-category"
+                        class="search-filter"
+                >
+                  <option value="1">개별상품할인</option>
+                  <option value="2">주문상품할인</option>
+                  <option value="3">배송비 무료</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>쿠폰명</th>
+              <td>
+                <input type="text" name="name" placeholder="쿠폰명 입력"/>
+              </td>
+            </tr>
+            <tr>
+              <th>혜택</th>
+              <td>
+                <input type="radio" id="1k" name="benefit_id" value="1"/>
+                <label for="1k">1,000원 할인</label>
+
+                <input type="radio" id="2k" name="benefit_id" value="2"/>
+                <label for="2k">2,000원 할인</label>
+
+                <input type="radio" id="3k" name="benefit_id" value="3"/>
+                <label for="3k">3,000원 할인</label>
+
+                <input type="radio" id="4k" name="benefit_id" value="4"/>
+                <label for="4k">4,000원 할인</label>
+
+                <input type="radio" id="5k" name="benefit_id" value="5"/>
+                <label for="5k">5,000원 할인</label>
+                <br/>
+                <input type="radio" id="10p" name="benefit_id" value="6"/>
+                <label for="10p">10% 할인</label>
+
+                <input type="radio" id="20p" name="benefit_id" value="7"/>
+                <label for="20p">20% 할인</label>
+
+                <input type="radio" id="30p" name="benefit_id" value="8"/>
+                <label for="30p">30% 할인</label>
+
+                <input type="radio" id="40p" name="benefit_id" value="9"/>
+                <label for="40p">40% 할인</label>
+
+                <input type="radio" id="50p" name="benefit_id" value="10"/>
+                <label for="50p">50% 할인</label>
+                <br/>
+                <input type="radio" id="free" name="benefit_id" value="11"/>
+                <label for="free">배송비 무료</label>
+              </td>
+            </tr>
+            <tr>
+              <th>사용기간</th>
+              <td>
+                <input type="date" name="from" id="coupon-from"/>
+                <input type="date" name="to" id="coupon-to"/>
+                <span>또는 발급일로부터</span>
+                <input type="number" id="coupon-days" style="width: 50px"/>
+                <span>일 이내</span>
+              </td>
+            </tr>
+            <tr>
+              <th>유의사항</th>
+              <td>
+                <textarea name="description" id="coupon-desc"></textarea>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <input type="submit" class="post-submit-btn" value="등록하기"/>
+        </form>
+      </div>
+    </div>
+  </main>
+  <section class="pagination">
+    <a class="page move"
+       th:href="@{/admin/coupon/search(pg=1, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}">
+      <i class="fa-solid fa-angles-left"></i>
+    </a>
+
+    <a class="page move"
+       th:href="@{/admin/coupon/search(pg=${pageResponseDTO.start - 1}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}">
+      <i class="fa-solid fa-chevron-left"></i>
+    </a>
+
+    <th:block th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+      <a class="page"
+         th:href="@{/admin/coupon/search(pg=${num}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}"
+         th:class="${num == pageResponseDTO.pg} ? 'current' : 'num'">
+        [[${num}]]
+      </a>
+    </th:block>
+
+    <a class="page move"
+       th:href="@{/admin/coupon/search(pg=${pageResponseDTO.end + 1}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}">
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <a class="page move"
+       th:href="@{/admin/coupon/search(pg=${pageResponseDTO.lastPage}, searchType=${pageResponseDTO.searchType}, keyword=${pageResponseDTO.keyword})}">
+      <i class="fa-solid fa-angles-right"></i>
+    </a>
+  </section>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>
+
+<script>
+  //발급일로부터 ~이내 날짜 지정시 자동으로 from~ to 입력
+  document.getElementById("coupon-days").addEventListener("input", function () {
+    const days = parseInt(this.value);
+    if (!isNaN(days)) {
+      const today = new Date();
+      const fromDate = new Date(today);
+      const toDate = new Date(today);
+      toDate.setDate(toDate.getDate() + days);
+
+      const formatDate = (date) => date.toISOString().split("T")[0];
+
+      document.getElementById("coupon-from").value = formatDate(fromDate);
+      document.getElementById("coupon-to").value = formatDate(toDate);
+    }
+  });
+
+
+</script>
+
+
+<script>
+  // 종료 버튼 활성화
+  function updateStatus(button) {
+    const confirmResult = confirm("정말 종료하시겠습니까?");
+    if (!confirmResult) {
+      return; // 사용자가 '취소'를 누르면 함수 종료
+    }
+
+    var couponId = button.getAttribute('data-coupon-id');
+
+    fetch(`/admin/coupon/update-status/${couponId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                alert('쿠폰 상태가 "종료"로 변경되었습니다.');
+                location.reload();
+              } else {
+                alert('상태 변경 실패');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('서버 오류');
+            });
+  }
+</script>
+
+

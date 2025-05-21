@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회사소개 - 롯데ON</title>
+ 
+  <link rel="stylesheet" href="/style/common/company/index.css">
+  <link rel="stylesheet" href="/style/common/company/recruit.css">
+</head>
+
+<body>
+
+<th:block th:insert="~{/common/company/_header.html}"></th:block>
+
+  <h2>쇼핑을 새롭게, 세상을 이롭게 이끌<br>쇼핑 좀 해본 인재를 모십니다</h2>
+  <p class="description">
+    롯데 ON은 안정성과 혁신성의 가치를 융합해 나가고 있으며,<br>
+    구성원들은 유쾌하고 자율적인 문화 속에서 선을 넘어선 혁신적인 서비스 설계를 주도하고 있습니다.<br>
+    롯데 ON과 함께 큰 울림을 찍어가며 성장하실 분들을 기다립니다.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>번호</th>
+        <th>채용부서</th>
+        <th>경력사항</th>
+        <th>채용형태</th>
+        <th>제목</th>
+        <th>상태</th>
+        <th>모집기간</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr th:each="post, stat : ${posts}">
+      <td th:text="${stat.count}">1</td>
+      <td th:text="${post.dept.name}">광고사업</td>
+      <td th:text="${post.career.career_year + '년차'}">경력 4~15년</td>
+      <td th:text="${post.hireType.type}">정규직</td>
+      <td>
+        <a th:href="@{/recruit/{id}(id=${post.id})}" th:text="${post.title}">제목</a>
+      </td>
+      <td th:text="${post.status}"
+          th:classappend="${post.status == '모집중'} ? 'status-open' : 'status-closed'">
+        모집중
+      </td>
+      <td>
+        <span th:text="${#temporals.format(post.dateFrom,'yyyy-MM-dd')}"></span>
+        ~
+        <span th:text="${#temporals.format(post.dateTo,'yyyy-MM-dd')}"></span>
+      </td>
+    </tr>
+    </tbody>
+
+  </table>
+  <div class="pagination">
+    <a href="#">이전</a>
+    <a href="#" class="active">1</a>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+    <a href="#">다음</a>
+  </div>
+  <div class="breadcrumb">
+    HOME > 기업문화소식과 이야기
+  </div>
+
+
+
+  <th:block th:insert="~{/common/company/_footer.html}"></th:block>
+  <script>
+    function scrollToNextSection() {
+      const nextSection = document.getElementById('description');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // 페이지 스크롤에 따라 마우스 버튼 위치 조정
+    window.addEventListener('scroll', function() {
+      const scrollButton = document.getElementById('scrollButton');
+      const scrollPosition = window.scrollY;
+
+      // 페이지가 100px 이상 스크롤되면 마우스 버튼 위치 변경
+      if (scrollPosition > 100) {
+        scrollButton.style.bottom = '10px'; // 버튼이 조금 더 위로 올라옴
+      } else {
+        scrollButton.style.bottom = '20px'; // 원래 위치로 돌아옴
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+.tab {
+  width: 100%;
+  height: 45px;
+  background-color: #f2f2f2;
+  padding: 10px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+}
+
+.tab-option {
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  line-height: 40px;
+  text-align: center;
+  border: 1px solid #808080;
+  box-sizing: border-box;
+  background-color: #bfbfbf;
+}
+
+.tab-option:hover {
+  background-color: #fff;
+}
+
+.tab-option.active {
+  background-color: #fff;
+  border-bottom: 0px;
+}
+
+.banner-info {
+  display: block;
+  text-align: left;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.banner-info-btn {
+  width: auto;
+  height: auto;
+}
+
+.activation-btn {
+  vertical-align: middle;
+  width: 67px;
+  height: 25px;
+  margin-bottom: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.activate-btn {
+  background-color: #2675d6;
+}
+
+.inactivate-btn {
+  background-color: #c0080f;
+}
+
+.banner-registry {
+  width: 660px;
+  height: 200px;
+  padding: 10px;
+  border-collapse: collapse;
+  border-top: 1px solid #a6a6a6;
+  box-sizing: border-box;
+}
+
+.banner-registry th {
+  width: 25%;
+  background-color: #f2f2f2;
+}
+
+.banner-registry td {
+  padding: 10px;
+}
+
+.banner-registry input {
+  width: 200px;
+  height: 30px;
+  border: 2px solid #a6a6a6;
+  outline: none;
+}
+
+.banner-registry input[type="file"] {
+  width: 250px;
+}
+
+.submit-btn {
+  display: block;
+  background-color: #00b050;
+  color: white;
+  width: 135px;
+  height: 45px;
+  margin: 0 auto;
+  margin-top: 20px;
+  border: 0;
+}
+
+.content table {
+  margin-bottom: 30px;
+}
+
+.content table tr td input[type="submit"] {
+  width: auto;
+  height: auto;
+  border: none;
+}
+
+.content table tr td input[type="checkbox"] {
+  height: auto;
+}
+
+.post-submit-btn.activate {
+  background-color: #0e99fc;
+  border: none;
+  padding: 0;
+}
+
+.post-submit-btn.deactivate {
+  background-color: #c0080f;
+  border: none;
+  padding: 0;
+}
+
+.post-form-table {
+  width: 600px;
+  height: auto;
+  border: 1px solid #a6a6a6;
+}
+
+.post-form-table tr {
+  border-bottom: 1px solid #a6a6a6;
+}
+
+.post-form-table th {
+  text-align: center;
+}
+

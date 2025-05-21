@@ -1,0 +1,57 @@
+.main_content_detail > table {
+    width: 100%;
+    height: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    
+}
+
+.main_content_detail > table tr {}
+.main_content_detail > table > caption {
+
+}
+
+
+
+
+.main_content_detail > table tr:nth-of-type(1) > td > span{
+    font-size: 18px;
+    font-weight: bold;
+
+}
+
+.main_content_detail > table tr:nth-of-type(1) > td  {
+    width: auto;
+    color: #808080;
+    font-size: 14px;
+    padding: 18px;
+    border-bottom: 1px solid #d8d8d8;
+    line-height: 1.6;
+}
+
+.main_content_detail > table tr:nth-of-type(2) > td {
+    width: auto;
+    height: 400px;
+    padding: 18px;
+    padding-top: 30px;
+    border-bottom: 1px solid #d8d8d8;
+    line-height: 1.6;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px;    
+    border: 1px solid #bebebe; 
+    text-align: center;    
+    cursor: pointer;
+}
+
+.btnlist {
+    display: block;        /* 블록 요소로 변경 */
+    width: 100px;          /* 버튼 너비 고정 (원하는 크기로 조절 가능) */
+    margin: 20px auto;     /* 수평 가운데 정렬 */
+    text-align: center;
+    border: 1px solid #bebebe; 
+    background: #bebebe; 
+    color: #ffffff;
+}

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회사소개 - 롯데ON</title>
+ 
+  <link rel="stylesheet" href="/style/common/company/index.css">
+  <link rel="stylesheet" href="/style/common/company/blog.css">
+
+</head>
+
+<body>
+
+<th:block th:insert="~{/common/company/_header.html}"></th:block>
+  <section class="intro">
+    <h1>롯데ON을 더 알고 싶다면!</h1>
+    <p>우리의 다양한 이야기를 소개합니다</p>
+  </section>
+  <nav class="cardCategory">
+    <a href="#">전체보기</a>
+    <a href="#">기업문화</a>
+    <a href="#">인터뷰</a>
+    <a href="#">채용</a>
+    <a href="#">롯데ON</a>
+    <a href="#">보도자료</a>
+    <a href="#">ESG</a>
+  </nav>
+
+
+
+  <div class="container">
+    <a th:href="@{/company/blog/article1}" class="card" data-category="인터뷰">
+      <img src="/images/interview.jpg" alt="팀워크">
+      <div class="contents">
+        <div class="tag">인터뷰</div>
+        <h3>함께 성장하는 팀, UX 디자이너 김지영</h3>
+        <p>사용자 중심의 디자인과 협업으로 만들어낸 변화의 이야기</p>
+      </div>
+    </a>
+  
+    <div class="card" data-category="채용">
+      <img src="/images/recruit.jpg" alt="채용설명회">
+      <div class="contents">
+        <div class="tag">채용</div>
+        <h3>2025 상반기 채용 설명회 스케치</h3>
+        <p>미래의 롯데ON인을 위한 오프라인 채용 행사 현장 공개!</p>
+      </div>
+    </div>
+  
+    <div class="card" data-category="ESG">
+      <img src="/images/esg.jpg" alt="ESG활동">
+      <div class="contents">
+        <div class="tag">ESG</div>
+        <h3>친환경 포장재 도입으로 한 걸음 더</h3>
+        <p>롯데ON의 지속가능한 물류 혁신 스토리</p>
+      </div>
+    </div>
+  
+    <div class="card" data-category="기업문화">
+      <img src="/images/company_culture.jpg" alt="팀프로젝트">
+      <div class="contents">
+        <div class="tag">기업문화</div>
+        <h3>일 잘하는 조직 문화, 어떻게 만들까?</h3>
+        <p>애자일 기반 협업 문화와 자율적인 분위기를 경험해보세요</p>
+      </div>
+    </div>
+  
+    <div class="card" data-category="롯데ON">
+      <img src="/images/delivery.jpg" alt="신제품 론칭">
+      <div class="contents">
+        <div class="tag">롯데ON</div>
+        <h3>롯데ON, 신선식품 새벽배송 서비스 런칭</h3>
+        <p>더 빠르고 신선하게! 고객 만족도 95% 기록 중</p>
+      </div>
+    </div>
+  
+    <div class="card" data-category="기술">
+      <img src="/images/tech.jpg" alt="기술이야기">
+      <div class="contents">
+        <div class="tag">기술</div>
+        <h3>AI 추천 시스템, 어떻게 작동하나요?</h3>
+        <p>데이터 기반 추천 기술과 사용자 맞춤화 전략 소개</p>
+      </div>
+    </div>
+
+  
+    
+    <div class="card" data-category="기술">
+      <img src="/images/tech_team.jpg" alt="개발팀">
+      <div class="contents">
+        <div class="tag">기술</div>
+        <h3>백엔드 개발팀의 하루를 공개합니다</h3>
+        <p>개발부터 협업까지, 진짜 개발자의 일상은?</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="기업문화">
+      <img src="/images/culture1.jpg" alt="기업문화">
+      <div class="contents">
+        <div class="tag">기업문화</div>
+        <h3>유연한 출퇴근, 진짜 될까?</h3>
+        <p>자율 출퇴근제 도입으로 바뀐 업무 방식</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="인터뷰">
+      <img src="/images/interview1.jpg" alt="인터뷰">
+      <div class="contents">
+        <div class="tag">인터뷰</div>
+        <h3>MD 직무자 인터뷰: 상품 기획의 모든 것</h3>
+        <p>고객 중심의 상품 전략이란?</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="채용">
+      <img src="/images/recruit2.jpg" alt="채용">
+      <div class="contents">
+        <div class="tag">채용</div>
+        <h3>롯데ON, 신입 개발자 채용 스타트!</h3>
+        <p>혁신적인 IT팀과 함께할 인재를 찾습니다</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="롯데ON">
+      <img src="/images/lotteon1.jpg" alt="롯데ON">
+      <div class="contents">
+        <div class="tag">롯데ON</div>
+        <h3>롯데ON의 UX 개편 비하인드</h3>
+        <p>사용자 경험을 중심으로 새단장!</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="보도자료">
+      <img src="/images/press1.jpg" alt="보도자료">
+      <div class="contents">
+        <div class="tag">보도자료</div>
+        <h3>2025년 매출 1조 돌파 예상</h3>
+        <p>롯데ON, 성장세 지속</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="ESG">
+      <img src="/images/esg2.jpg" alt="ESG">
+      <div class="contents">
+        <div class="tag">ESG</div>
+        <h3>탄소배출 줄이는 물류 시스템 도입</h3>
+        <p>친환경 실천으로 ESG 경영 강화</p>
+      </div>
+    </div>
+    
+    <!-- 14개 추가 카드도 이어서 -->
+    <div class="card" data-category="기업문화">
+      <img src="/images/culture2.jpg" alt="기업문화">
+      <div class="contents">
+        <div class="tag">기업문화</div>
+        <h3>업무 몰입을 높이는 워케이션</h3>
+        <p>자유롭게 일하고 집중하는 방식</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="인터뷰">
+      <img src="/images/interview2.jpg" alt="인터뷰">
+      <div class="contents">
+        <div class="tag">인터뷰</div>
+        <h3>디자이너의 하루는 어떤 모습?</h3>
+        <p>UI 디자이너 리얼 인터뷰</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="채용">
+      <img src="/images/recruit3.jpg" alt="채용">
+      <div class="contents">
+        <div class="tag">채용</div>
+        <h3>2025 인턴십 프로그램 모집 중</h3>
+        <p>성장 기회와 실무 경험을 동시에!</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="롯데ON">
+      <img src="/images/lotteon2.jpg" alt="롯데ON">
+      <div class="contents">
+        <div class="tag">롯데ON</div>
+        <h3>롯데ON, 쇼핑 앱 1위 달성</h3>
+        <p>모바일 UX 최적화 전략 효과</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="보도자료">
+      <img src="/images/press2.jpg" alt="보도자료">
+      <div class="contents">
+        <div class="tag">보도자료</div>
+        <h3>롯데ON, 소상공인 상생 협약 체결</h3>
+        <p>파트너십 강화로 새로운 도약</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="ESG">
+      <img src="/images/esg3.jpg" alt="ESG">
+      <div class="contents">
+        <div class="tag">ESG</div>
+        <h3>모든 포장재에 재활용 소재 도입</h3>
+        <p>지속가능한 미래를 위한 실천</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="기업문화">
+      <img src="/images/culture3.jpg" alt="기업문화">
+      <div class="contents">
+        <div class="tag">기업문화</div>
+        <h3>사내 소통 프로그램, "온톡" 인기</h3>
+        <p>부서 간 협업을 돕는 새로운 문화</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="인터뷰">
+      <img src="/images/interview3.jpg" alt="인터뷰">
+      <div class="contents">
+        <div class="tag">인터뷰</div>
+        <h3>신입사원이 말하는 입사 후기</h3>
+        <p>첫 입사의 설렘과 성장 이야기</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="채용">
+      <img src="/images/recruit4.jpg" alt="채용">
+      <div class="contents">
+        <div class="tag">채용</div>
+        <h3>개발 직군 역량 강화 교육 실시</h3>
+        <p>실전과 같은 현업 중심의 커리큘럼</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="롯데ON">
+      <img src="/images/lotteon3.jpg" alt="롯데ON">
+      <div class="contents">
+        <div class="tag">롯데ON</div>
+        <h3>고객과의 소통 강화를 위한 챗봇 도입</h3>
+        <p>24시간 고객 응대 자동화</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="보도자료">
+      <img src="/images/press3.jpg" alt="보도자료">
+      <div class="contents">
+        <div class="tag">보도자료</div>
+        <h3>롯데ON, 글로벌 시장 진출 발표</h3>
+        <p>동남아 시장 공략 본격화</p>
+      </div>
+    </div>
+    
+    <div class="card" data-category="ESG">
+      <img src="/images/esg4.jpg" alt="ESG">
+      <div class="contents">
+        <div class="tag">ESG</div>
+        <h3>롯데ON의 사회공헌 활동 확대</h3>
+        <p>아동 복지와 교육 지원 활동 강화</p>
+      </div>
+    </div>
+    
+  </div>
+  <button id="loadMore">콘텐츠 더보기</button>
+
+
+
+  <th:block th:insert="~{/common/company/_footer.html}"></th:block>
+  <script>
+    function scrollToNextSection() {
+      const nextSection = document.getElementById('description');
+      if (nextSection) {
+        nextSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // 페이지 스크롤에 따라 마우스 버튼 위치 조정
+    window.addEventListener('scroll', function() {
+      const scrollButton = document.getElementById('scrollButton');
+      const scrollPosition = window.scrollY;
+
+      // 페이지가 100px 이상 스크롤되면 마우스 버튼 위치 변경
+      if (scrollPosition > 100) {
+        scrollButton.style.bottom = '10px'; // 버튼이 조금 더 위로 올라옴
+      } else {
+        scrollButton.style.bottom = '20px'; // 원래 위치로 돌아옴
+      }
+    });
+
+    /*카드 더보기*/
+
+    document.addEventListener('DOMcontentsLoaded', function () {
+    const cards = document.querySelectorAll('.card');
+    const loadMoreBtn = document.getElementById('loadMore');
+    let currentVisible = 6; // 처음엔 6개 보여줌
+
+    // 처음에 6개만 표시
+    cards.forEach((card, index) => {
+      card.style.display = index < currentVisible ? 'block' : 'none';
+    });
+
+    loadMoreBtn.addEventListener('click', function () {
+      let nextVisible = currentVisible + 6;
+
+      cards.forEach((card, index) => {
+        if (index < nextVisible) {
+          card.style.display = 'block';
+        }
+      });
+
+      currentVisible = nextVisible;
+
+      if (currentVisible >= cards.length) {
+        loadMoreBtn.style.display = 'none'; // 모두 보여주면 버튼 숨기기
+      }
+    });
+      // 카드 클릭 시 해당 기사 페이지로 이동
+  cards.forEach((card, index) => {
+    card.addEventListener('click', () => {
+      window.location.href = `/templates/common/company/articles/article${index + 1}.html`;
+    });
+  });
+  });
+
+
+  /*카테고리 필터 함수*/
+  // 모든 링크 요소 가져오기
+  const navLinks = document.querySelectorAll(".cardCategory a");
+  const cards = document.querySelectorAll(".card");
+
+  navLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault(); // a 태그 기본 동작 막기
+
+      const category = link.innerText.trim(); // 클릭한 카테고리 이름 가져오기
+
+      cards.forEach(card => {
+        const cardCategory = card.dataset.category;
+
+        // "전체보기"를 누르면 다 보여줌
+        if (category === "전체보기" || category === "") {
+          card.style.display = "block";
+        } else {
+          card.style.display = (cardCategory === category) ? "block" : "none";
+        }
+      });
+    });
+  });
+
+
+
+
+  </script>
+
+</body>
+</html>

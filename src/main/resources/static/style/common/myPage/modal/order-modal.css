@@ -1,0 +1,172 @@
+.modal-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    background: #7BAAEC;;
+}
+
+.modal-hd > button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.modal-hd > p {
+    font-weight: bold;
+}
+
+#order-info-modal .orderList {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#order-info-modal .list-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#order-info-modal .list-head > p {
+   font-weight: bold;
+}
+
+#order-info-modal .order-table {
+    text-align: center;
+}
+
+#order-info-modal .order-table {
+    width: 100%;
+    height: 250px;
+    margin-top: 15px;
+    border-top: 2px solid gray;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+#order-info-modal .table-head {
+    height: 60px;
+    background: #eee;
+}
+
+#order-info-modal .table-head > th {
+    vertical-align: middle; 
+}
+
+#order-info-modal .end {
+    padding-right: 30px
+}
+
+#order-info-modal .price-t {
+    padding-right: 30px;
+}
+
+#order-info-modal td {
+    vertical-align: middle; 
+}
+
+#order-info-modal .p-info {
+    display: flex;
+    margin-left: 40px;
+}
+
+#order-info-modal .proimg {
+    width: 150px;
+    height: 100px
+}
+
+#order-info-modal .proimg > img {
+    width: 100px;
+    height: 120px;
+}
+
+#order-info-modal .table-body > td:last-child {
+    margin-right: 30px;
+}
+
+#order-info-modal .o-info > p {
+    display: flex;
+    margin-top: 15px;
+}
+
+#order-info-modal .o-info > p :nth-child(1) {
+    margin-left: 30px;
+}
+
+#order-info-modal .o-info > p > span {
+    margin-left: 10px;
+}
+
+/* --------------------------  */
+#order-info-modal .p-info2 {
+    display: flex;
+    margin-left: 40px;
+    margin-right: 20px;
+}
+
+#order-info-modal .o-info2 > p {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#order-info-modal .o-info2 > p :nth-child(1) {
+    margin-left: 20px;
+}
+
+#order-info-modal .o-info2 > p:nth-child(3) {
+    margin-top: 70px;
+}
+
+#order-info-modal .o-info2 > p > span {
+    margin-left: 10px;
+}
+
+
+/* --------------------------  */
+#order-info-modal .price {
+    font-weight: bold;
+}
+
+#order-info-modal .btn-option {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+
+
+/*table2*/
+#order-info-modal .all-deliveryList {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#order-info-modal .delivery-table {
+    width: 100%;
+    height: 250px;
+    margin-top: 15px;
+    border-top: 2px solid gray;
+    border-bottom: 1px solid #eee;
+}
+
+#order-info-modal .delivery-table td {
+    border-bottom: 1px solid #ccc;
+}
+
+#order-info-modal .td-l {
+   text-align: center;
+   background: #eee;
+   width: 150px;
+}
+
+#order-info-modal .td-r {
+    padding-left: 20px;
+}
+
+

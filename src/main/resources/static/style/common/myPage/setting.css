@@ -1,0 +1,111 @@
+main {
+    width: 1260px;
+    margin: 0 auto;
+}
+
+.body-wrap {
+    display: flex;
+    margin-top: 40px;
+}
+
+.content-box {
+    width: 100%;
+}
+
+.event-img {
+    text-align: center;
+    width: 100%;
+    height: auto;
+}
+
+.event-img > img {
+    width: 90%;
+    height: 120px;
+    border-radius: 10px;
+}
+
+.all-orderList {
+    margin-top: 30px;
+    margin-left: 55px;
+}
+
+.list-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.list-head > p {
+   font-weight: bold;
+}
+
+.list-head > span {
+    margin-right: 20px;
+}
+
+table th, td{
+    border-bottom: 1px solid #DEDEDE; /* 밑에 보더를 추가 */
+    padding: 10px; 
+    
+}
+
+table th{
+    border-right: 1px solid #DEDEDE;
+    background-color: #f2f2f2;
+    width: 198px;
+    box-sizing: border-box;
+}
+
+table{
+    width: auto;
+    height: auto;
+    border-top: 2px solid #071F4B;
+    justify-content: center;
+    
+
+}
+
+table td {
+    width: 792px;
+    box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 308px;
+  height: 39px;
+  box-sizing: border-box;
+  border: 1px solid #cccccc;
+  padding: 8px;
+}
+
+.inputs{
+    width: 463px;
+    margin-top: 5px;
+}
+
+
+.agree-button {
+    display: block;
+    width: 400px;
+    background-color: #b9cde5;
+    color: white;
+    border: none;
+    padding: 12px 0;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 2px;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 30px;
+  }
+
+  .withdraw {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 9px;
+    cursor: pointer;
+  }
+    

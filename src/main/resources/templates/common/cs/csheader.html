@@ -1,0 +1,36 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<header>
+    <div id="header-wrapper">
+        <div id="account-area">
+            <ul>
+                <li>
+                    <a th:href="@{/cs/csmain}"> 고객센터 </a>
+                </li>
+                <li>
+                    <a href="#"> 주문배송 </a>
+                </li>
+                <li>
+                    <span sec:authorize="isAnonymous()"><a th:href="@{/login}"> 로그인/회원가입 </a></span>
+                    <span sec:authorize="isAuthenticated()" class="logout">
+            <form th:action="@{/logout}" method="post">
+                <button type="submit">로그아웃</button>
+            </form>
+          </span>
+                </li>
+            </ul>
+        </div>
+        <div id="header-area">
+            <div id="logo-area">
+                <a th:href="@{/}">
+                    <img
+                            th:src="${config.getLogo().getHeaderLogoLocation()}"
+                            alt="logo"
+                    />
+                </a>
+                <a th:href="@{/cs/csmain}" style="font-size: 35px; font-weight: bold; margin-left: 10px;">고객센터</a>
+            </div>
+        </div>
+    </div>
+

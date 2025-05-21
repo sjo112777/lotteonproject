@@ -1,0 +1,190 @@
+# 배포용 설정
+spring:
+  cache:
+    type: redis
+  config:
+    activate:
+      on-profile: prod
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: fafa5271783@gmail.com
+    password: kuyk ffoc bbhu vjwf
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+  application:
+    name: lotteon
+    version: 0.1.6
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://lotteon-mysql:3306/lotteon
+    username: lotteon
+    password: HJkEQmgAqefGcWPyQ65pRyuo6uFak0S2
+
+    hikari:
+      connection-timeout: 10000
+      maximum-pool-size: 20
+
+  elasticsearch:
+    uris: http://es-container:9200
+    username: elastic
+    password: CP3wsN0u
+
+
+    jpa:
+      hibernate:
+        ddl-auto: none
+      show-sql: true
+      properties:
+        hibernate:
+          show_sql: true
+          format_sql: true
+          globally_quoted_identifiers: true
+
+  data:
+    mongodb:
+      uri: mongodb://lotteon:QqKa4j67Ljw4E05u8Fpl0c2O55xKvFdu@lotteon-mongo:27017/lotteon?authSource=lotteon
+
+    redis:
+      host: lotteon-redis
+      port: 6379
+
+  thymeleaf:
+    prefix: classpath:/templates
+
+logging:
+  file:
+    path: /var/www/upload/data
+  level:
+    root: info
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+lotteon:
+  data:
+    mongodb:
+      config:
+        basic:
+          collection: BasicConfig
+          version: basic_config::version
+          site: basic_config::site
+          logo: basic_config::logo
+          corp-info: basic_config::corp-info
+          cs-info: basic_config::cs_inf
+          copyright: basic_config::copyright;
+  upload:
+    path: /var/www/upload
+    product:
+      path: /var/www/upload/product
+    banner:
+      path: /var/www/upload/banner
+    prefix:
+      banner: /upload/banner/
+---
+# 개발용 설정
+spring:
+  cache:
+    type: redis
+  config:
+    activate:
+      on-profile: dev
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: fafa5271783@gmail.com
+    password: kuyk ffoc bbhu vjwf
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+  application:
+    name: lotteon
+    version: 0.1.6
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://15.164.97.245:3307/lotteon
+    username: lotteon-dev
+    password: 1234
+
+    hikari:
+      connection-timeout: 10000
+      maximum-pool-size: 20
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        globally_quoted_identifiers: true
+
+  elasticsearch:
+    uris: http://localhost:9200
+    username: elastic
+    password: CP3wsN0u
+  
+  data:
+    mongodb:
+      uri: mongodb://lotteon-dev:1234@15.164.97.245:27018/lotteon?authSource=lotteon
+
+    redis:
+      host: 15.164.97.245
+      port: 6380
+
+  thymeleaf:
+    prefix: classpath:/templates
+
+logging:
+  level:
+    root: info
+    sql: debug
+    org:
+      springframework: info
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+lotteon:
+  data:
+    mongodb:
+      config:
+        basic:
+          collection: BasicConfig
+          version: basic_config::version
+          site: basic_config::site
+          logo: basic_config::logo
+          corp-info: basic_config::corp-info
+          cs-info: basic_config::cs_inf
+          copyright: basic_config::copyright;
+  upload:
+    path: C:\var\www\upload
+    product:
+      path: C:\var\www\upload\product
+    banner:
+      path: C:\var\www\upload\banner
+    prefix:
+      banner: /upload/banner/
+
+
+---

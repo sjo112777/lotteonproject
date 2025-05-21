@@ -1,0 +1,297 @@
+main {
+  width: 1260px;
+  height: auto;
+  min-height: 80vh;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+#content-area {
+  float: right;
+  width: 1050px;
+  height: auto;
+}
+
+#content-area > .content-area-title {
+  width: 100%;
+  height: 60px;
+  padding: 20px 0;
+  border-bottom: 2px solid #808080;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20px;
+}
+
+#content-area > .content-area-title > h3 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+#content-area > .content-area-title > span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.content {
+  width: 100%;
+  height: auto;
+  margin-bottom: 30px;
+}
+
+.content > .content-title {
+  margin-bottom: 10px;
+}
+
+.with-underline {
+  border-bottom: 2px solid #a6a6a6;
+  box-sizing: border-box;
+}
+
+.with-list-style {
+  list-style: disc;
+}
+
+.content > .content-title > h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+input[type="file"]::file-selector-button {
+  border: none;
+  background-color: #a6a6a6;
+  color: white;
+  cursor: pointer;
+  height: 35px;
+}
+
+input[type="checkbox"] {
+  vertical-align: middle;
+}
+
+.desc {
+  display: block;
+  width: 100%;
+  min-height: 35px;
+  height: auto;
+  line-height: 35px;
+  padding: 5px 10px;
+  background-color: #f2f2f2;
+  margin-bottom: 10px;
+}
+
+.crud-btn-area {
+  display: flex;
+  justify-content: space-between;
+}
+
+.delete-btn {
+  background-color: #bfbfbf;
+}
+
+.register-btn {
+  background-color: #0e99fc;
+}
+
+#search-area {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 1050px;
+  height: 100%;
+  margin-bottom: 20px;
+}
+
+.search-filter {
+  width: 100px;
+  height: 35px;
+  border: 2px solid #a6a6a6;
+  box-sizing: border-box;
+  outline: none;
+  margin-right: 5px;
+}
+
+.search-input {
+  width: 150px;
+  height: 35px;
+  border: 2px solid #a6a6a6;
+  box-sizing: border-box;
+  margin-right: 5px;
+}
+
+.search-submit-btn {
+  width: 70px;
+  height: 35px;
+  border: none;
+  outline: none;
+  background-color: #a6a6a6;
+  color: white;
+  /*font-size: 16px;*/
+  font-weight: 400;
+}
+
+.background-green {
+  background-color: #00b050;
+  color: white;
+}
+
+.background-blue {
+  background-color: #0e99fc;
+  color: white;
+}
+
+.background-red {
+  background-color: #c0080f;
+  color: white;
+}
+
+.background-dark-gray {
+  background-color: #808080;
+  color: white;
+}
+
+.text-gray {
+  color: #a6a6a6;
+}
+
+.text-dark-gray {
+  color: #808080;
+}
+
+.text-green {
+  color: #00b050;
+}
+
+.text-blue {
+  color: #0e99fc;
+}
+
+.text-red {
+  color: #c0080f;
+}
+
+.content table {
+  width: 100%;
+  height: auto;
+  border-collapse: collapse;
+  border-top: 2px solid #a6a6a6;
+  box-sizing: border-box;
+}
+
+.content table th {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.content table tr {
+  height: 60px;
+  line-height: 60px;
+  padding: 20px;
+  border-bottom: 1px solid #a6a6a6;
+  box-sizing: border-box;
+}
+
+.content table td {
+  height: auto;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.content table td input {
+  height: 35px;
+  border: 2px solid #a6a6a6;
+}
+
+.content table td input[type="submit"] {
+  border: none;
+  height: auto;
+  padding-inline: 6px;
+}
+
+.content table td input[type="radio"] {
+  margin-top: -1px;
+  vertical-align: middle;
+}
+
+.content table td input label {
+  vertical-align: middle;
+}
+
+.content table tr td img {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+}
+
+.control-btn {
+  width: 95px;
+  height: 35px;
+  border: none;
+  background-color: inherit;
+  outline: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.control-btn.default {
+  background-color: #0e99fc;
+}
+
+.control-btn.delete {
+  background-color: #c0080f;
+}
+
+.control-btn.expired {
+  background-color: #808080;
+}
+
+.post-form-table th {
+  width: 20%;
+  background-color: #dce6f2;
+  vertical-align: middle;
+}
+
+.post-form-table td {
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.post-submit-btn {
+  width: 95px;
+  height: 35px;
+  background-color: #0e99fc;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.post-submit-btn.gray {
+  background-color: #808080;
+}
+
+.post-submit-btn.red {
+  background-color: #c0080f;
+}
+
+.enroll-btn {
+  width: 95px;
+  height: 35px;
+  margin-top: 30px;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+}
+
+/*.content table selector.category-selector*/
+.category-selector {
+  width: 180px;
+  height: 35px;
+  border: 2px solid #a6a6a6;
+}
+
+.anchor-with-underline {
+  text-decoration: underline;
+}

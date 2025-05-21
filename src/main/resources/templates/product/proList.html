@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>롯데ON</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/index.css"/>
+  <link rel="stylesheet" href="/style/common/header.css"/>
+  <link rel="stylesheet" href="/style/common/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link rel="stylesheet" href="/style/product/proList.css">
+  <link rel="stylesheet" href="/style/product/mainheader.css">
+  <link rel="stylesheet" href="/style/product/aside.css">
+  <link rel="icon" href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"/>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"/>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/common/footer.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+          crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/header}"></th:block>
+
+  <main>
+    <div class="main">
+      <!--th:block th:insert="~{/product/_side1}"></th:block-->
+
+      <article class="article-body">
+        <div class="article-header">
+          <div class="main-heder">
+            <h3 class="list-title">상품 목록</h3>
+          </div>
+
+          <div class="main-heder2">
+            <ul>
+              <li>
+                <a th:href="@{'/product/list'(subcategoryId=${subcategoryId}, filter='sales', sort='asc')}">판매많은순</a>
+              </li>
+              <li>
+                <a th:href="@{'/product/list'(subcategoryId=${subcategoryId}, filter='price', sort='asc')}">낮은가격순</a>
+              </li>
+              <li>
+                <a th:href="@{'/product/list'(subcategoryId=${subcategoryId}, filter='price', sort='desc')}">높은가격순</a>
+              </li>
+            </ul>
+          </div>
+
+        <div class="grid">
+          <div class="product" th:each="product : ${products}">
+            <a th:href="@{/product/detail(id=${product.id})}">
+              <div class="grid-img">
+                <img th:src="@{${product.image.listThumbnailLocation}}" alt="이미지" />
+              </div>
+
+              <div class="icon">
+                <button><i class="fa-regular fa-heart" id="heart"></i></button>
+                <button><i class="fa-solid fa-cart-plus"></i></button>
+              </div>
+
+              <div class="Protitle">
+                <span
+                    th:text="${product.seller != null ? product.seller.companyName : '판매자 정보 없음'}"></span>
+                <span th:text="${product.name}"></span>
+              </div>
+
+              <div class="Proprice">
+                <del th:text="${product.price + '원'}"></del>
+              </div>
+
+              <div class="sela-price"
+                   th:if="${product.price != null and product.discountRate != null}">
+                <span class="sale" th:text="${product.discountRate + '%'}"></span>
+                <span
+                    th:text="${#numbers.formatInteger(product.price - (product.price / 100.0) * product.discountRate, 0) + '원'}"></span>
+              </div>
+
+              <div class="rank">
+                <i class="fa-solid fa-star"></i>
+                <span>5.0 |</span>
+                <span>리뷰 1</span>
+              </div>
+
+              <div class="free">
+                <span>무료배송</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <th:block th:insert="~{/common/pagination}"></th:block>
+  </main>
+
+
+  <th:block th:insert="~{/common/footer}"></th:block>
+</div>
+<script src="/js/common/header.js"></script>
+</body>
+</html>

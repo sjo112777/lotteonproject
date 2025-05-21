@@ -1,0 +1,113 @@
+<!--
+  작성자: 손준오(sjo112777)
+  내용: 고객센터 > 공지사항 보기 view
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>고객센터 >공지사항 보기</title>
+    <link rel="stylesheet" href="/style/init.css" />
+    <link rel="stylesheet" href="/style/index.css" />
+    <link rel="stylesheet" href="/style/common/header.css" />
+    <link rel="stylesheet" href="/style/common/footer.css" />
+    <!--<link rel="stylesheet" href="//style/common/pagination.css" />-->
+    <link rel="stylesheet" href="/style/cs/cscommon.css" />
+    <link rel="stylesheet" href="/style/cs/csnoticeview.css" />
+    <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="/js/common/header.js"></script>
+    <script src="/js/common/footer.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="wrapper">
+
+      <th:block th:insert="~{/common/cs/csheader}"></th:block>
+
+        <nav id="quick-menu">
+          <ul>
+            <li>
+              <span>홈 > 공지사항</span>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+
+      <main>
+        <div class="csmain">
+          <!-- 왼쪽 사이드바 -->
+          <th:block th:insert="~{/common/cs/noticesidebar}"></th:block>
+            <!-- 오른쪽 글 -->
+            <article class="main_content">
+              <div class="main_title">
+                <th:block th:if="${fromAll}">
+                  <p>전체</p>
+                  <span style="color: #808080;">공지사항 전체내용 입니다.</span>
+                </th:block>
+
+                <th:block th:unless="${fromAll}">
+                  <th:block th:switch="${noticeDTO.type_id}">
+                    <p th:case="1">고객서비스</p>
+                    <p th:case="2">이벤트</p>
+                    <p th:case="3">안전거래</p>
+                    <p th:case="4">위해상품</p>
+                  </th:block>
+                  <th:block th:switch="${noticeDTO.type_id}">
+                    <span th:case="1" style="color: #808080;">공지사항 고객서비스내용 입니다.</span>
+                    <span th:case="2" style="color: #808080;">공지사항 이벤트내용 입니다.</span>
+                    <span th:case="3" style="color: #808080;">공지사항 안전거래내용 입니다.</span>
+                    <span th:case="4" style="color: #808080;">공지사항 위해상품내용 입니다.</span>
+                  </th:block>
+                </th:block>
+              </div>
+              <div class="main_content_detail">
+                <table>                        
+                  <tr>
+                      <td><span>[[${noticeDTO.title}]]</span><br>
+                        [[${noticeDTO.register_date}]]
+                      </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      [[${noticeDTO.content}]]
+                    </td>
+                  </tr>
+                </table>
+                <a th:if="${fromAll}" th:href="@{/cs/notice/csnoticeall}" class="btn btnlist">목록</a>
+
+                <a th:if="${!fromAll and noticeDTO.type_id == 1}" th:href="@{/cs/notice/csnoticecustomer}" class="btn btnlist">목록</a>
+                <a th:if="${!fromAll and noticeDTO.type_id == 2}" th:href="@{/cs/notice/csnoticeevent}" class="btn btnlist">목록</a>
+                <a th:if="${!fromAll and noticeDTO.type_id == 3}" th:href="@{/cs/notice/csnoticesafe}" class="btn btnlist">목록</a>
+                <a th:if="${!fromAll and noticeDTO.type_id == 4}" th:href="@{/cs/notice/csnoticehazard}" class="btn btnlist">목록</a>
+
+              </div>
+
+              
+            </article>
+
+        </div>
+
+
+
+
+      </main>
+
+
+
+      <th:block th:insert="~{/common/footer}"></th:block>
+    </div>
+  </body>
+</html>

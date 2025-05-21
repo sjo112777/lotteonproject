@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>상품관리 > 상품목록</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link rel="stylesheet" href="/style/admin/product/product.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+  <script src="/js/common/admin/checkbox.js"></script>
+  <script src="/js/admin/product/deleteProduct.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/admin/header}"></th:block>
+  <main>
+    <th:block th:insert="~{/common/admin/aside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>상품목록</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp; </a>
+              <a href="#">상품관리&nbsp;>&nbsp; </a>
+              <a href="#">상품목록</a>
+            </span>
+      </div>
+      <div class="content">
+        <form th:action="@{/admin/product/search}" method="GET" id="search-area">
+          <select name="filter" class="search-filter">
+            <option value="name">상품명</option>
+            <option value="id">상품번호</option>
+            <option value="company">판매자</option>
+          </select>
+          <input
+              type="text"
+              name="keyword"
+              class="search-input"
+              placeholder="검색어 입력"
+          />
+          <input type="submit" class="search-submit-btn" value="검색"/>
+        </form>
+        <table>
+          <tbody>
+          <tr>
+            <th>
+              <input type="checkbox" class="select-all"/>
+            </th>
+            <th>사진</th>
+            <th>상품코드</th>
+            <th>상품명</th>
+            <th>판매가격</th>
+            <th>할인율</th>
+            <th>포인트</th>
+            <th>재고</th>
+            <th>판매자</th>
+            <th>관리</th>
+          </tr>
+          <tr th:each="product : ${pages}">
+            <td>
+              <input type="checkbox" class="item-checkbox"/>
+            </td>
+            <td class="table-img-area">
+              <img th:src="@{${product.getImage().getListThumbnailLocation()}}" alt=""/>
+            </td>
+            <td class="product-id" th:text="${product.getId()}">201603292</td>
+            <td th:text="${product.getName()}">상품명 #1</td>
+            <td>[[${product.getPrice()}]]원</td>
+            <td>[[${product.getDiscountRate()}]]%</td>
+            <td th:text="${product.getPoint()}">320</td>
+            <td th:text="${product.getStock()}">1,000</td>
+            <td th:text="${product.getSeller().getCompanyName()}">(주)다파라</td>
+            <td>
+              <button data-value="on_sale" class="control-btn default status-btn"
+                      th:if="${product.getStatus().equals('stop_selling')}">재개
+              </button>
+              <a class="control-btn default"
+                 style="padding-inline: 6px;width: auto;height: auto"
+                 th:href="@{/admin/product/edit(id=${product.getId()})}"
+                 th:if="${product.getStatus().equals('on_sale')}">수정</a>
+              <button data-value="stop_selling" class="control-btn delete status-btn"
+                      th:if="${product.getStatus().equals('on_sale')}">중지
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="crud-btn-area">
+          <button data-value="stop_selling" class="enroll-btn delete-btn">판매중지</button>
+          <a th:href="@{/admin/product/register}" class="enroll-btn register-btn">상품등록</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <section class="pagination">
+    <a class="page move"
+       th:href="@{/admin/product/list(page=${pages.getPageable().first().getPageNumber()})}"
+       th:if="${pages.hasPrevious()}">
+      <i class="fa-solid fa-angles-left"></i>
+    </a>
+    <a class="page move" th:href="@{/admin/product/list(page=${currentPage - 1})}"
+       th:if="${pages.hasPrevious()}">
+      <i class="fa-solid fa-chevron-left"></i>
+    </a>
+    <span th:each="pageNum : ${#numbers.sequence(1, pages.getTotalPages())}">
+            <a th:class="${currentPage == pageNum ? 'page current-page' : 'page'}"
+               th:href="@{/admin/product/list(page=${pageNum})}"
+               th:text="${pageNum}">1</a>
+        </span>
+    <a class="page move" th:href="@{/admin/product/list(page=${currentPage + 1})}"
+       th:if="${pages.hasNext()}">
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+    <a class="page move"
+       th:href="@{/admin/product/list(page=${pages.getTotalPages()})}"
+       th:if="${pages.hasNext()}">
+      <i class="fa-solid fa-angles-right"></i>
+    </a>
+  </section>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>

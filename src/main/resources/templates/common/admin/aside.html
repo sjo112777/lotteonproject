@@ -1,0 +1,105 @@
+<!--<main>-->
+<aside class="side-menu">
+  <ul>
+    <li id="settings-menu">
+      <i class="fa-solid fa-gear"></i>
+      <a href="/admin/config/basic"> 환경설정 </a>
+    </li>
+    <ul class="submenu settings" style="display: none">
+      <li>
+        <a th:href="@{/admin/config/basic}"> 기본설정 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/config/banner}"> 배너관리 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/config/policy}"> 약관관리 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/config/category}"> 카테고리 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/config/version}"> 버전이력 </a>
+      </li>
+    </ul>
+    <li id="store-menu">
+      <i class="fa-solid fa-store"></i>
+      <a th:href="@{/admin/seller/list}"> 상점관리 </a>
+    </li>
+    <ul class="submenu store" style="display: none">
+      <li>
+        <a th:href="@{/admin/seller/list}"> 상점목록 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/sales/list}"> 매출현황 </a>
+      </li>
+    </ul>
+    <li id="member-menu">
+      <i class="fa-solid fa-users"></i>
+      <a th:href="@{/admin/member/list}"> 회원관리 </a>
+    </li>
+    <ul class="submenu member" style="display: none">
+      <li>
+        <a th:href="@{/admin/member/list}"> 회원목록 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/member/point}"> 포인트 관리 </a>
+      </li>
+    </ul>
+    <li id="product-menu">
+      <i class="fa-solid fa-box-open"></i>
+      <a th:href="@{/admin/product/list}"> 상품관리 </a>
+    </li>
+    <ul class="submenu product" style="display: none">
+      <li>
+        <a th:href="@{/admin/product/list}"> 상품목록 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/product/register}"> 상품등록 </a>
+      </li>
+    </ul>
+    <li id="order-menu">
+      <i class="fa-solid fa-credit-card"></i>
+      <a th:href="@{/admin/order/list}"> 주문관리 </a>
+    </li>
+    <ul class="submenu order" style="display: none">
+      <li>
+        <a th:href="@{/admin/order/list}"> 주문현황 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/delivery/list}"> 배송현황 </a>
+      </li>
+    </ul>
+    <li id="coupon-menu">
+      <i class="fa-solid fa-ticket"></i>
+      <a th:href="@{/admin/coupon/coupon}"> 쿠폰관리 </a>
+    </li>
+    <ul class="submenu coupon" style="display: none">
+      <li>
+        <a th:href="@{/admin/coupon/coupon}"> 쿠폰목록 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/coupon/issued}"> 쿠폰발급현황 </a>
+      </li>
+    </ul>
+    <li id="cs-menu">
+      <i class="fa-solid fa-headphones"></i>
+      <a th:href="@{/admin/cs/notice/notice}"> 고객센터 </a>
+    </li>
+    <ul class="submenu customer-service" style="display: none">
+      <li>
+        <a th:href="@{/admin/cs/notice/notice}"> 공지사항 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/cs/faq/list}"> 자주묻는질문 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/cs/qna/list}"> 문의하기 </a>
+      </li>
+      <li>
+        <a th:href="@{/admin/cs/recruit/list}"> 채용하기 </a>
+      </li>
+    </ul>
+  </ul>
+</aside>
+<!--</main>-->

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>상점관리 > 매출현황</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link rel="stylesheet" href="/style/admin/shop/shop.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:if="${role.equals('ROLE_ADMIN')}" th:insert="~{/common/admin/header}"></th:block>
+  <th:block th:if="${role.equals('ROLE_SELLER')}"
+            th:insert="~{/common/admin/sellerHeader}"></th:block>
+  <main>
+    <th:block th:if="${role.equals('ROLE_ADMIN')}" th:insert="~{/common/admin/aside}"></th:block>
+    <th:block th:if="${role.equals('ROLE_SELLER')}"
+              th:insert="~{/common/admin/sellerAside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>매출현황</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp; </a>
+              <a href="#">상점관리&nbsp;>&nbsp; </a>
+              <a href="#">매출현황</a>
+            </span>
+      </div>
+      <div class="content">
+        <form th:action="@{/admin/sales/list}" method="GET" id="search-area">
+          <select name="filter" class="search-filter">
+            <option value="">필터</option>
+            <option value="all">전체</option>
+            <option value="daily">일간</option>
+            <option value="weekly">주간</option>
+            <option value="monthly">월간</option>
+          </select>
+          <select name="sort" class="search-filter">
+            <option value="">매출별 정렬</option>
+            <option value="asc">오름차순</option>
+            <option value="desc">내림차순</option>
+          </select>
+          <input type="submit" class="search-submit-btn" value="적용"/>
+        </form>
+        <table>
+          <tr>
+            <th>번호</th>
+            <th>상호명</th>
+            <th>사업자등록번호</th>
+            <th>주문건수</th>
+            <th>결제완료</th>
+            <th>배송중</th>
+            <th>배송완료</th>
+            <th>구매확정</th>
+            <th>주문합계</th>
+            <th>매출합계</th>
+          </tr>
+          <tr th:each="wrapper : ${pages}">
+            <td th:text="${wrapper.getSales().getId()}">5</td>
+            <td th:text="${wrapper.getSales.getSeller().getCompanyName()}">(주)다나와</td>
+            <td th:text="${wrapper.getSales().getSeller().getSellerId().getBusinessNumber()}">
+              112-12-12345
+            </td>
+            <td th:text="${wrapper.getOrderCount()}">103</td>
+            <td th:text="${wrapper.getPaidOrderCount()}">90</td>
+            <td th:text="${wrapper.getOnDeliveryCount()}">56</td>
+            <td th:text="${wrapper.getDeliveredOrderCount()}">52</td>
+            <td th:text="${wrapper.getPurchaseConfirmedCount()}">50</td>
+            <td th:text="${#numbers.formatCurrency(wrapper.getTotalPrice())}">12,858,309</td>
+            <td th:text="${#numbers.formatCurrency(wrapper.getConfirmedTotalPrice())}">103,231,330
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="pagination">
+        <a class="page move"
+           th:href="@{/admin/sales/list(page=${pages.getPageable().first().getPageNumber() + 1})}"
+           th:if="${pages.hasPrevious()}"
+        >
+          <i class="fa-solid fa-angles-left"></i>
+        </a>
+        <a class="page move" th:href="@{/admin/sales/list(page=${currentPage - 1})}"
+           th:if="${pages.hasPrevious()}">
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <span th:each="pageNum : ${#numbers.sequence(1, pages.getTotalPages())}">
+            <a th:class="${currentPage == pageNum ? 'page current-page' : 'page'}"
+               th:href="@{/admin/sales/list(page=${pageNum})}"
+               th:text="${pageNum}">1</a>
+        </span>
+        <a class="page move" th:href="@{/admin/sales/list(page=${currentPage + 1})}"
+           th:if="${pages.hasNext()}">
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <a class="page move"
+           th:href="@{/admin/sales/list(page=${pages.getTotalPages()})}"
+           th:if="${pages.hasNext()}">
+          <i class="fa-solid fa-angles-right"></i>
+        </a>
+      </div>
+    </section>
+  </main>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>

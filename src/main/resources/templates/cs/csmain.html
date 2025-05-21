@@ -1,0 +1,158 @@
+<!--
+  작성자: 손준오(sjo112777)
+  내용: 고객센터 > 메인 view
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>고객센터 > 메인</title>
+    <link rel="stylesheet" href="/style/init.css" />
+    <link rel="stylesheet" href="/style/index.css" />
+    <link rel="stylesheet" href="/style/common/header.css" />
+    <link rel="stylesheet" href="/style/common/footer.css" />
+    <link rel="stylesheet" href="/style/cs/csmain.css" />
+    <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="/js/common/header.js"></script>
+    <script src="/js/common/footer.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="wrapper">
+        <th:block th:insert="~{/common/header}"></th:block>
+        <th:block th:insert="~{/_menu}"></th:block>
+
+
+
+
+      <main>
+        <section class="csmain">
+            <h3><span>롯데 ON </span> 이 도와드릴게요 !</h3>
+            <div class="notice">
+                <span>공지사항</span>
+                <a th:href="@{/cs/notice/csnoticeall}">전체보기</a>
+            </div>
+            <div class="noticetable">
+                <table>
+                    <tr th:each="notice, i:${pageResponseDTO.dtoList}">
+                        <td>([[${notice.subtype_name}]])</td>
+                        <td><a th:href="@{/cs/notice/csnoticeview(id=${notice.id})}">[[${notice.title}]]</a></td>
+                        <td>[[${notice.register_date}]]</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="qna">
+                <span>자주하는질문</span>
+                <a th:href="@{/cs/faq/csfaqmember}">전체보기</a>
+            </div>
+            <div class="qnatable">
+                <div class="qna-grid">
+                    <div class="qna-item">
+                        <a th:href="@{/cs/faq/csfaqmember}">
+                            <i class="fa-solid fa-user" style="font-size: 36px;"></i>
+                            <span>회원</span>
+                        </a>
+                    </div>
+                    <div class="qna-item">
+                        <a th:href="@{/cs/faq/csfaqcoupon}">
+                            <i class="fa-solid fa-percent" style="font-size: 36px;"></i>
+                            <span>쿠폰/이벤트</span>
+                        </a>
+                    </div>
+                    <div class="qna-item">
+                        <a th:href="@{/cs/faq/csfaqorder}">
+                            <i class="fa-solid fa-receipt" style="font-size: 36px;"></i>
+                            <span>주문/결제</span>
+                        </a>
+                    </div>
+                    <div class="qna-item">
+                        <a th:href="@{/cs/faq/csfaqdeliver}">
+                            <i class="fa-solid fa-truck" style="font-size: 36px;"></i>
+                            <span>배송</span>
+                        </a>
+                    </div>
+                    <div class="qna-item">
+                        <a th:href="@{/cs/faq/csfaqcancel}">
+                            <i class="fa-solid fa-rotate-left" style="font-size: 36px;"></i>
+                            <span>취소/반품/환불</span>
+                        </a>
+                    </div>
+                    <div class="qna-item">
+                        <a th:href="@{/cs/faq/csfaqsafe}">
+                            <i class="fa-solid fa-user-shield" style="font-size: 36px;"></i>
+                            <span>안전결제</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact">
+                <span>문의하기</span>
+                <a th:href="@{/cs/qna/csqnamember}">전체보기</a>
+            </div>
+            <div class="contacttable">
+                <table>
+                    <tr th:each="qna, i:${qnaPageResponseDTO.dtoList}">
+                        <td>([[${qna.subtype_name}]])</td>
+                        <td><a th:href="@{/cs/qna/csqnaview(id=${qna.id})}">[[${qna.title}]]</a></td>
+                        <td>
+                            <span th:text="${#strings.substring(qna.member_id, 0, 3) + '***'}"></span>
+                        </td>
+                        <td>[[${qna.register_date}]]</td>
+                    </tr>
+
+                </table>
+                
+                <div class="qnawrite">
+                    <a th:href="@{${#authentication.principal == null} ? '/login' : '/cs/qna/csqnawrite'}">문의글작성</a>
+                </div>
+            </div>
+
+            
+            <div class="consult">
+                <span>1:1 상담안내</span>
+            </div>
+            <div class="infoboxes">
+                <div class="information">
+                    <p>
+                        <span>이용안내</span><br>
+                        일반회원 / 비회원<br>
+                        <span>1566-0001</span> (평일 09:00 ~ 18:00)<br>
+                        스마일클럽 전용<br>
+                        <span>1566-0002</span> (365일 09:00 ~ 18:00)
+
+                    </p>            
+                </div>
+
+                <div class="saleinformation">
+                    <p>
+                        <span>판매상담이용안내</span><br>
+                        판매고객<br>
+                        <span>1566-5700</span> (평일 09:00 ~ 18:00)<br>
+                        <span>판매자 가입 및 서류접수 안내</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+      </main>
+
+
+    <th:block th:insert="~{/common/footer}"></th:block>
+    </div>
+  </body>
+</html>

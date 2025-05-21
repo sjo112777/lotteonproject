@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>고객센터 > 공지사항</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/cspagination.css"/>
+  <link rel="stylesheet" href="/style/admin/cs/notice/notice.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+  <script type="module" src="/js/common/admin/modal.mjs"></script>
+  <script
+      type="module"
+      src="/js/common/admin/registryModal.js"
+  ></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/admin/header}"></th:block>
+  <main>
+    <th:block th:insert="~{/common/admin/aside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>공지사항 목록</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp;</a>
+              <a href="#">고객센터&nbsp;>&nbsp;</a>
+              <a href="#">공지사항</a>
+            </span>
+      </div>
+      <div class="content">
+        <form th:action="@{/admin/cs/notice/search}" method="GET" id="search-area">
+          <select name="type_id" class="search-filter" id="typeSelect" onchange="this.form.submit()">
+            <option value="0">유형선택</option>
+            <option value="1">고객서비스</option>
+            <option value="2">이벤트</option>
+            <option value="3">안전거래</option>
+            <option value="4">위해상품</option>
+          </select>
+          <input
+                  type="submit"
+                  class="search-submit-btn"
+                  value="검색"
+                  style="display: none"
+          />
+        </form>
+        <table>
+          <tbody>
+          <tr>
+            <th>
+              <input type="checkbox" id="check-all" />
+            </th>
+            <th>번호</th>
+            <th>유형</th>
+            <th>제목</th>
+            <th>조회</th>
+            <th>날짜</th>
+            <th>관리</th>
+          </tr>
+          <tr th:each="notice, i:${pageResponseDTO.dtoList}">
+            <td>
+              <input type="checkbox" class="notice-checkbox" th:attr="data-id=${notice.id}" />
+            </td>
+            <td>[[${pageResponseDTO.startNo - i.index}]]</td>
+            <td>[[${notice.subtype_name}]]</td>
+            <td><a th:href="@{/admin/cs/notice/view(id=${notice.id})}">[[${notice.title}]]</a></td>
+            <td>[[${notice.hit}]]</td>
+            <td>[[${notice.register_date}]]</td>
+            <td>
+              <button class="control-btn default"
+                      type="button"
+                      th:attr="data-id=${notice.id}"
+                      onclick="modifyNotice(this)">수정
+              </button>
+              <button class="control-btn delete"
+                      type="button"
+                      th:attr="data-id=${notice.id}"
+                      onclick="deleteNotice(this)">삭제
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="crud-btn-area">
+          <button class="enroll-btn delete-btn">선택삭제</button>
+          <a class="enroll-btn register-btn" th:href="@{/admin/cs/notice/write}"> 작성하기 </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <section class="pagination">
+    <a class="page move"
+       th:href="@{/admin/cs/notice/search(pg=1, type_id=${pageResponseDTO.type_id}, filter=${pageResponseDTO.filter})}">
+      <i class="fa-solid fa-angles-left"></i>
+    </a>
+
+    <a class="page move"
+       th:href="@{/admin/cs/notice/search(pg=${pageResponseDTO.start - 1}, type_id=${pageResponseDTO.type_id}, filter=${pageResponseDTO.filter})}">
+      <i class="fa-solid fa-chevron-left"></i>
+    </a>
+
+    <th:block th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+      <a class="page"
+         th:href="@{/admin/cs/notice/search(pg=${num}, type_id=${pageResponseDTO.type_id}, filter=${pageResponseDTO.filter})}"
+         th:class="${num == pageResponseDTO.pg} ? 'current' : 'num'">
+        [[${num}]]
+      </a>
+    </th:block>
+
+    <a class="page move"
+       th:href="@{/admin/cs/notice/search(pg=${pageResponseDTO.end + 1}, type_id=${pageResponseDTO.type_id}, filter=${pageResponseDTO.filter})}">
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+
+    <a class="page move"
+       th:href="@{/admin/cs/notice/search(pg=${pageResponseDTO.lastPage}, type_id=${pageResponseDTO.type_id}, filter=${pageResponseDTO.filter})}">
+      <i class="fa-solid fa-angles-right"></i>
+    </a>
+  </section>
+
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>
+
+<script>
+  function deleteNotice(button) {
+    const id = button.getAttribute('data-id');
+    if (confirm('정말 삭제하시겠습니까?')) {
+      window.location.href = `/admin/cs/notice/delete?id=${id}`;
+    }
+  }
+</script>
+
+<script>
+  function modifyNotice(button) {
+    const id = button.getAttribute('data-id');
+    window.location.href = `/admin/cs/notice/modify?id=${id}`;
+  }
+</script>
+
+<script>
+  document.querySelector(".delete-btn").addEventListener("click", async function () {
+    const checkboxes = document.querySelectorAll(".notice-checkbox:checked");
+
+    if (checkboxes.length === 0) {
+      alert("삭제할 공지사항을 선택해주세요.");
+      return;
+    }
+
+    if (!confirm("선택한 공지사항을 삭제하시겠습니까?")) {
+      return;
+    }
+
+    // 체크된 항목들의 id 리스트 추출
+    const ids = Array.from(checkboxes).map(cb => cb.getAttribute("data-id"));
+
+    // 순차적으로 삭제 요청
+    for (const id of ids) {
+      await fetch(`/admin/cs/notice/delete?id=${id}`);
+    }
+
+    // 삭제 후 새로고침 또는 리스트 페이지로 이동
+    alert("삭제가 완료되었습니다.");
+    window.location.href = "/admin/cs/notice/notice"; // 너의 목록 페이지 경로
+  });
+</script>
+
+<script>
+  // 전체 선택 체크박스 이벤트
+  document.getElementById("check-all").addEventListener("change", function () {
+    const allChecked = this.checked;
+    const checkboxes = document.querySelectorAll(".notice-checkbox");
+    checkboxes.forEach(cb => cb.checked = allChecked);
+  });
+</script>
+

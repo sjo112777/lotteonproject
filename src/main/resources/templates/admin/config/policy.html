@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>환경설정 > 약관관리</title>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link rel="stylesheet" th:href="@{/style/init.css}"/>
+  <link rel="stylesheet" th:href="@{/style/admin/index.css}"/>
+  <link rel="stylesheet" th:href="@{/style/common/admin/header.css}"/>
+  <link rel="stylesheet" th:href="@{/style/common/admin/footer.css}"/>
+  <link rel="stylesheet" th:href="@{/style/common/admin/aside.css}"/>
+  <link rel="stylesheet" th:href="@{/style/common/admin/content.css}"/>
+  <link rel="stylesheet" th:href="@{/style/admin/config/policy.css}"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script th:src="@{/js/admin/config/aside-drop.js}"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/admin/header}"></th:block>
+  <main>
+    <th:block th:insert="~{/common/admin/aside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>약관관리</h3>
+        <span>
+              <a th:href="@{/admin}">HOME&nbsp;>&nbsp; </a>
+              <a th:href="@{/admin/config/basic}">환경설정&nbsp;>&nbsp;</a>
+              <a th:href="@{/admin/config/policy}">약관관리</a>
+            </span>
+      </div>
+      <div class="content" th:each="policy : ${policies}">
+        <div class="content-title">
+          <h3 th:text="${policy.getTitle()}">구매회원약관</h3>
+        </div>
+        <p class="desc">회원가입 및 정책 페이지에 노출되는 약관입니다</p>
+        <form th:action="@{/admin/config/policy/edit(id=${policy.getId()})}" method="post"
+              class="post-form">
+          <input type="hidden" name="title" th:value="${policy.getTitle()}"/>
+          <table class="post-form-table">
+            <tbody>
+            <tr>
+              <th>약관내용</th>
+              <td>
+                <textarea name="content" class="policy-content"
+                >[[${policy.getContent()}]]</textarea>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="crud-btn-area">
+            <span></span>
+            <input type="submit" class="post-submit-btn" value="수정하기"/>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>

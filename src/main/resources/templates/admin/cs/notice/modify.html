@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>관리자 공지사항 수정</title>
+    <link rel="stylesheet" href="/style/init.css" />
+    <link rel="stylesheet" href="/style/common/admin/header.css" />
+    <link rel="stylesheet" href="/style/common/admin/aside.css" />
+    <link rel="stylesheet" href="/style/common/admin/content.css" />
+    <link rel="stylesheet" href="/style/common/admin/footer.css" />
+    <link rel="stylesheet" href="/style/admin/cs/notice/write.css" />
+    <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="/js/admin/config/aside-drop.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+        <th:block th:insert="~{/common/admin/header}"></th:block>
+      <main>
+        <th:block th:insert="~{/common/admin/aside}"></th:block>
+        <section id="content-area">
+          <div class="content-area-title">
+            <h3>공지사항 수정</h3>
+            <span>
+              <a href="#">HOME&nbsp;>&nbsp;</a>
+              <a href="#">고객센터&nbsp;>&nbsp;</a>
+              <a href="#">공지사항</a>
+            </span>
+          </div>
+          <div class="content">
+            <form th:action="@{/admin/cs/notice/modify}" enctype="multipart/form-data" method="POST" class="post-form">
+              <input type="hidden" name="id" th:value="${noticeDTO.id}" />
+              <table class="post-form-table">
+                <tbody>
+                  <tr>
+                    <th>유형</th>
+                    <td>
+                      <select name="type_id" class="search-filter">
+                        <option value="1">고객서비스</option>
+                        <option value="2">이벤트</option>
+                        <option value="3">안전거래</option>
+                        <option value="4">위해상품</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>제목</th>
+                    <td>
+                      <input type="text" name="title" th:value="${noticeDTO.title}" placeholder="제목을 입력하세요.">
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>내용</th>
+                    <td>
+                      <textarea name="content" id="notice-content">[[${noticeDTO.content}]]</textarea>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="crud-btn-area">
+                <button class="enroll-btn delete-btn" onclick="location.href='/admin/cs/notice/notice'">취소하기</button>
+                <input class="post-submit-btn" type="submit" value="등록하기" />
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+        <th:block th:insert="~{/common/admin/footer}"></th:block>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>상품관리 > 상품등록</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link rel="stylesheet" href="/style/admin/product/register.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+  <script src="/js/admin/product/addOption.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/admin/header}"></th:block>
+  <main>
+    <th:block th:insert="~{/common/admin/aside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>상품등록</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp;</a>
+              <a href="#">상품관리&nbsp;>&nbsp;</a>
+              <a href="#">상품등록</a>
+            </span>
+      </div>
+      <form th:action="@{/admin/product/register}" method="POST" enctype="multipart/form-data"
+            class="post-form">
+        <div class="content">
+          <div class="content-title">
+            <h3>상품분류</h3>
+          </div>
+          <p class="desc">
+            1차, 2차 카테고리 기본분류는 필수 입력사항 입니다
+          </p>
+          <table class="post-form-table">
+            <tbody>
+            <tr>
+              <th>1차 분류</th>
+              <td>
+                <select name="product.category.id" class="category-selector" id="first-category">
+                  <option value="">-- 선택 --</option>
+                  <option th:each="category : ${categories}"
+                          th:value="${category.id}"
+                          th:text="${category.name}">
+                  </option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>2차 분류</th>
+              <td>
+                <select name="product.subCategory.id" class="category-selector" id="second-category">
+                  <option value="">-- 선택 --</option>
+                </select>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="content">
+          <div class="content-title">
+            <h3>기본정보</h3>
+          </div>
+          <p class="desc">기본정보는 필수 입력사항 입니다</p>
+          <table class="post-form-table">
+            <tbody>
+            <tr>
+              <th>상품명</th>
+              <td>
+                <input type="text" name="product.name" required/>
+              </td>
+            </tr>
+            <tr>
+              <th>기본설명</th>
+              <td>
+                <input type="text" name="product.description" required/>
+              </td>
+            </tr>
+            <tr>
+              <th>상품금액</th>
+              <td>
+                <input type="number" name="product.price" required value="0"/>&nbsp;원
+              </td>
+            </tr>
+            <tr>
+              <th>할인율</th>
+              <td>
+                <input type="number" name="product.discountRate" required value="0"/>&nbsp;%
+              </td>
+            </tr>
+            <tr>
+              <th>포인트</th>
+              <td>
+                <input type="number" name="product.point" required value="0"/>&nbsp;원
+              </td>
+            </tr>
+            <tr>
+              <th>재고수량</th>
+              <td>
+                <input type="number" name="product.stock" required value="1"/>&nbsp;개
+              </td>
+            </tr>
+            <tr>
+              <th>배송비</th>
+              <td>
+                <input type="number" name="product.deliveryFee" value="2500"/>&nbsp;원
+              </td>
+            </tr>
+            <tr>
+              <th>상품이미지</th>
+              <td>
+                <div>
+                  <input type="file" accept="image/jpg, image/jpeg, image/png" name="listThumbnail"
+                         required/>
+                  <span> 크기 190 x 190, 상품 목록에 출력될 이미지 </span>
+                </div>
+                <div>
+                  <input type="file" accept="image/jpg, image/jpeg, image/png" name="mainThumbnail"
+                         required/>
+                  <span> 크기 230 x 230, 상품 메인에 출력될 이미지 </span>
+                </div>
+                <div>
+                  <input type="file" accept="image/jpg, image/jpeg, image/png"
+                         name="detailThumbnail" required/>
+                  <span> 크기 456 x 456, 상품 상세에 출력될 이미지 </span>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>상품 상세정보</th>
+              <td>
+                <div>
+                  <input type="file" accept="image/jpg, image/jpeg, image/png" name="detailImage"
+                         required/>
+                  <span> 크기 456 x 456, 상품 상세에 출력될 이미지 </span>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="content">
+          <div class="content-title">
+            <h3>상품 선택정보</h3>
+          </div>
+          <p class="desc">
+            상품별 선택정보(옵션) 입력입니다. <br/>
+            예시) 옵션1: 사이즈, 옵션1 항목: XXL, XL, L, M, S(콤마로 구분)
+          </p>
+          <table class="post-form-table options-table">
+            <tbody>
+            <tr class="option-fields">
+              <th>옵션1</th>
+              <td>
+                <input class="option-input" type="text" name="options[0].option"/>
+              </td>
+              <th>옵션1 항목</th>
+              <td>
+                <input class="option-value" type="text" name="options[0].value"/>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="crud-btn-area">
+            <span></span>
+            <button class="enroll-btn register-btn add-option-btn">
+              옵션추가
+            </button>
+          </div>
+        </div>
+        <div class="content">
+          <div class="content-title">
+            <h3>상품정보 제공고시</h3>
+          </div>
+          <p class="desc">
+            [전자상거래에 관한 상품정보 제공에 관한 고시]에 의거하여
+            등록하는 정보입니다
+          </p>
+          <table class="post-form-table">
+            <tbody>
+            <tr>
+              <th>상품 상태</th>
+              <td>
+                <select name="product.quality" class="category-selector" required>
+                  <option value="new">새상품</option>
+                  <option value="used">중고품</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>부가세 면세여부</th>
+              <td>
+                <select name="product.isVatFree" class="category-selector" required>
+                  <option value="true">면세</option>
+                  <option value="false">과세</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>영수증 발행</th>
+              <td>
+                <select name="product.isReceiptIssuable" class="category-selector" required>
+                  <option value="true">발행가능 - 신용카드전표, 온라인현금영수증 등</option>
+                  <option value="false">발행 불가능</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th>사업자구분</th>
+              <td>
+                <input type="text" name="product.businessClassification" required/>
+              </td>
+            </tr>
+            <tr>
+              <th>원산지</th>
+              <td>
+                <input type="text" name="product.origin" required/>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <p
+            class="desc"
+            style="
+                background-color: #feffcc;
+                color: #595959;
+                margin-top: 10px;
+              "
+        >
+          전자상거래 등에서의 상품 등의 정보 제공에 관한 고시에 따라 총 35개
+          상품군에 대해 상품 특성 등을 <br/>양식에 따라 입력할 수 있습니다.
+        </p>
+        <div class="crud-btn-area">
+          <span></span>
+          <input type="submit" class="post-submit-btn" value="등록하기"/>
+        </div>
+      </form>
+    </section>
+  </main>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+
+<script th:inline="javascript">
+  let subCategories = /*[[${subCategories}]]*/ [];
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const first = document.getElementById('first-category');
+    const second = document.getElementById('second-category');
+
+    first.addEventListener('change', function () {
+      const selectedId = this.value;
+
+      second.innerHTML = '<option value="">-- 선택 --</option>';
+
+      const filtered = subCategories.filter(sub => sub.category.id == selectedId);
+
+      filtered.forEach(sub => {
+        const opt = document.createElement('option');
+        opt.value = sub.id;
+        opt.textContent = sub.name;
+        second.appendChild(opt);
+      });
+    });
+  });
+</script>
+</body>
+</html>

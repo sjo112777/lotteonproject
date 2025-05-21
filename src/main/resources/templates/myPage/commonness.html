@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style/common/myPage/myPagehead.css">
+    <link rel="stylesheet" href="/style/common/myPage/myPageSide.css">
+</head>
+<body>
+
+    <header class="myShopping-info">
+        <div class="header-title">
+            <p>나의 쇼핑정보</p>
+        </div>
+
+        <ul class="item-list">
+            <li>
+                <p>주문</p>
+                <p>2</p>
+            </li>
+
+            <li>
+                <p>쿠폰</p>
+                <p>1</p>
+            </li>
+
+            <li>
+                <p>포인트</p>
+                <p>1,000</p>
+            </li>
+
+            <li>
+                <p>문의</p>
+                <p>1</p>
+            </li>
+        </ul>
+    </header>
+
+    <div class="body-wrap">
+        <th:block th:insert="~{/myPage/sidebar}"></th:block>
+
+        <div class="content-box">
+            <div class="event-img">
+                <img src="/proDetail-img/advertisement.jpg" alt="광고 이미지">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

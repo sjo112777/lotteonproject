@@ -1,0 +1,23 @@
+.content table img {
+  position: absolute;
+  display: inline-block;
+  top: 10px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+}
+
+.table-img-area {
+  position: relative;
+}
+
+.content table .control-btn {
+  width: auto;
+  height: auto;
+}
+
+.enroll-btn.register-btn {
+  line-height: 35px;
+  text-align: center;
+  font-size: 14px;
+}

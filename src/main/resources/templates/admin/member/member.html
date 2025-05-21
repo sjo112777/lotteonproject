@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>회원관리 > 회원목록</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link rel="stylesheet" href="/style/admin/member/member.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+  <script type="module" src="/js/common/admin/modal.mjs"></script>
+  <script
+      type="module"
+      src="/js/admin/member/onModalOpen.js"
+  ></script>
+  <script src="/js/admin/member/updateLevel.js"></script>
+  <script src="/js/admin/member/updateStatus.js"></script>
+  <script src="/js/common/admin/checkbox.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/admin/header}"></th:block>
+  <main>
+    <th:block th:insert="~{/common/admin/aside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>회원목록</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp; </a>
+              <a href="#">회원관리&nbsp;>&nbsp; </a>
+              <a href="#">회원목록</a>
+            </span>
+      </div>
+      <div class="content">
+        <div class="content-title">
+          <h3>회원목록</h3>
+        </div>
+        <form th:action="@{/admin/member/search}" method="GET" id="search-area">
+          <select name="filter" class="search-filter">
+            <option value="id">아이디</option>
+            <option value="name">이름</option>
+            <option value="email">이메일</option>
+            <option value="contact">연락처</option>
+          </select>
+          <input
+              type="text"
+              name="keyword"
+              class="search-input"
+              placeholder="검색어 입력"
+          />
+          <input type="submit" class="search-submit-btn" value="검색"/>
+        </form>
+        <table>
+          <tr>
+            <th>
+              <input type="checkbox" class="select-all"/>
+            </th>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>성별</th>
+            <th>등급</th>
+            <th>포인트</th>
+            <th>이메일</th>
+            <th>휴대폰</th>
+            <th>가입일</th>
+            <th>상태</th>
+            <th>관리</th>
+          </tr>
+          <tr th:each="member : ${pages}">
+            <td>
+              <input
+                  class="item-checkbox"
+                  type="checkbox"/>
+            </td>
+            <td class="member-id"
+                th:data-value="${member.getMemberId().getUser().getId()}"
+                th:text="${member.getMemberId().getUser().getId()}"></td>
+            <td th:text="${member.getName()}">정우성</td>
+            <td th:text="${member.getGender().toUpperCase()}">M</td>
+            <td>
+              <select name="level" id="member-level">
+                <option value="family">FAMILY</option>
+                <option value="silver">SILVER</option>
+                <option value="gold">GOLD</option>
+                <option value="vip">VIP</option>
+                <option value="vvip">VVIP</option>
+              </select>
+            </td>
+            <!--td th:text="${member.getPoint().getTotal()}">15,000</td-->
+            <td>15,000</td>
+            <td th:text="${member.getMemberId().getUser().getEmail()}">
+              loremIpsum@example.com
+            </td>
+            <td th:text="${member.getMemberId().getUser().getContact()}">010-3338-2313</td>
+            <td>
+              [[${member.getMemberId().getUser().getRegisterDate().getYear()}]]
+              -[[${#temporals.format(member.getMemberId().getUser().getRegisterDate(),
+              'MM')}]]
+            </td>
+            <td class="text-red" th:if="${member.getStatus().equals('stopped')}">중지</td>
+            <td th:if="${member.getStatus().equals('stopped')}">
+              <button class="registry-modal-btn">수정</button>
+              <button data-value="normal" class="status-btn background-green">재개</button>
+            </td>
+            <td class="text-green" th:if="${member.getStatus().equals('normal')}">정상</td>
+            <td th:if="${member.getStatus().equals('normal')}">
+              <button class="registry-modal-btn">수정</button>
+              <button data-value="stopped" class="status-btn background-red">중지</button>
+            </td>
+            <td class="text-gray" th:if="${member.getStatus().equals('dormant')}">휴면</td>
+            <td th:if="${member.getStatus().equals('dormant')}">
+              <button class="registry-modal-btn">수정</button>
+              <button data-value="normal" class="status-btn background-green">재개</button>
+            </td>
+            <td class="text-gray" th:if="${member.getStatus().equals('withdrawed')}">탈퇴</td>
+            <td th:if="${member.getStatus().equals('withdrawed')}">
+              <button class="registry-modal-btn">수정</button>
+              <button class="background-red destroy-btn">비활성</button>
+              <!--비활성의 경우 DELETE 메서드 사용하기-->
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="crud-btn-area">
+        <button class="enroll-btn delete-btn">
+          선택수정
+        </button>
+      </div>
+      <div class="registry-modal member-modification" title="회원수정">
+        <form th:action="@{/admin/member/register}" method="POST">
+          <table>
+            <tr>
+              <th>아이디</th>
+              <td>
+                <input type="text" readonly name="memberId.user.id"/>
+              </td>
+            </tr>
+            <tr>
+              <th>이름</th>
+              <td>
+                <input type="text" name="name"/>
+              </td>
+            </tr>
+            <tr>
+              <th>성별</th>
+              <td>
+                <input type="radio" id="male" value="m" name="gender"/>
+                <label for="male">M</label>
+                <input type="radio" id="female" value="f" name="gender"/>
+                <label for="female">F</label>
+              </td>
+            </tr>
+            <tr>
+            </tr>
+            <tr>
+              <th>EMAIL</th>
+              <td>
+                <input type="email" name="memberId.user.email"/>
+              </td>
+            </tr>
+            <tr>
+              <th>휴대폰</th>
+              <td>
+                <input type="text" name="memberId.user.contact"/>
+              </td>
+            </tr>
+            <tr>
+              <th>우편번호</th>
+              <td>
+                <input type="text" name="memberId.user.zip"/>
+                <button class="post-btn">검색</button>
+              </td>
+            </tr>
+            <tr>
+              <th>기본주소</th>
+              <td>
+                <input
+                    type="text"
+                    name="memberId.user.address"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>상세주소</th>
+              <td>
+                <input type="text" name="memberId.user.addressDetail"/>
+              </td>
+            </tr>
+            <tr>
+              <th>가입일</th>
+              <td class="memberId user registerDate"></td>
+            </tr>
+            <tr>
+              <th>최근 로그인 날짜</th>
+              <td class="recentLoginDate"></td>
+            </tr>
+            <tr>
+              <th>기타</th>
+              <td>
+                <textarea name="description" id="member-etc"></textarea>
+              </td>
+            </tr>
+          </table>
+          <input
+              type="submit"
+              class="modal-register-btn"
+              value="등록하기"
+          />
+        </form>
+      </div>
+      <div class="pagination">
+        <a class="page move"
+           th:href="@{/admin/member/list(page=${pages.getPageable().first().getPageNumber() + 1})}"
+           th:if="${pages.hasPrevious()}"
+        >
+          <i class="fa-solid fa-angles-left"></i>
+        </a>
+        <a class="page move" th:href="@{/admin/member/list(page=${currentPage - 1})}"
+           th:if="${pages.hasPrevious()}">
+          <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <span th:each="pageNum : ${#numbers.sequence(1, pages.getTotalPages())}">
+            <a th:class="${currentPage == pageNum ? 'page current-page' : 'page'}"
+               th:href="@{/admin/member/list(page=${pageNum})}"
+               th:text="${pageNum}">1</a>
+        </span>
+        <a class="page move" th:href="@{/admin/member/list(page=${currentPage + 1})}"
+           th:if="${pages.hasNext()}">
+          <i class="fa-solid fa-chevron-right"></i>
+        </a>
+        <a class="page move"
+           th:href="@{/admin/member/list(page=${pages.getTotalPages()})}"
+           th:if="${pages.hasNext()}">
+          <i class="fa-solid fa-angles-right"></i>
+        </a>
+      </div>
+    </section>
+  </main>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>

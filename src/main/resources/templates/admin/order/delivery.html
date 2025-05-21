@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>주문관리 > 배송현황</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script src="/js/admin/config/aside-drop.js"></script>
+  <script type="module" src="/js/common/admin/modal.mjs"></script>
+  <script type="module" src="/js/admin/order/delivery.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:if="${role.equals('ROLE_ADMIN')}" th:insert="~{/common/admin/header}"></th:block>
+  <th:block th:if="${role.equals('ROLE_SELLER')}"
+            th:insert="~{/common/admin/sellerHeader}"></th:block>
+  <main>
+    <th:block th:if="${role.equals('ROLE_ADMIN')}" th:insert="~{/common/admin/aside}"></th:block>
+    <th:block th:if="${role.equals('ROLE_SELLER')}"
+              th:insert="~{/common/admin/sellerAside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>배송현황</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp; </a>
+              <a href="#">주문관리&nbsp;>&nbsp; </a>
+              <a href="#">배송현황</a>
+            </span>
+      </div>
+      <div class="content">
+        <form action="/admin/delivery/search" method="GET" id="search-area">
+          <select name="filter" class="search-filter">
+            <option value="deliveryNumber">송장번호</option>
+            <option value="orderNumber">주문번호</option>
+            <option value="recipientName">수령인</option>
+          </select>
+          <input
+              type="text"
+              name="keyword"
+              class="search-input"
+              placeholder="검색어 입력"
+          />
+        </form>
+        <table>
+          <tbody>
+          <tr>
+            <th>송장번호</th>
+            <th>택배사</th>
+            <th>주문번호</th>
+            <th>수령인</th>
+            <th>건수</th>
+            <th>물품합계</th>
+            <th>배송비</th>
+            <th>배송상태</th>
+            <th>접수일</th>
+          </tr>
+          <tr th:each="wrapper : ${pages}">
+            <td>
+              <a th:href="@{/api/admin/delivery/search(id=${wrapper.getDelivery().getDeliveryNumber()})}"
+                 th:text="${wrapper.getDelivery().getDeliveryNumber()}"
+                 class="delivery-detail anchor-with-underline">
+                10122102315
+              </a>
+            </td>
+            <td th:text="${wrapper.getDelivery().getDeliveryCompany().getCompanyName()}">롯데택배</td>
+            <td th:text="${wrapper.getDelivery().getOrder().getOrderNumber()}">10121211341</td>
+            <td th:text="${wrapper.getDelivery().getOrder().getRecipientName()}">김유신</td>
+            <td th:text="${wrapper.getItemCount()}">3</td>
+            <td th:text="${wrapper.getTotalPrice()}">68,400</td>
+            <td th:text="${wrapper.getTotalDeliveryFee()}"
+                th:if="${wrapper.getTotalDeliveryFee() != 0}">무료
+            </td>
+            <td class="text-blue" th:if="${wrapper.getStatus() == 3}">배송준비</td>
+            <td class="text-green" th:if="${wrapper.getStatus() == 4}">배송중</td>
+            <td class="text-green" th:if="${wrapper.getStatus() == 5}">배송완료</td>
+            <td th:if="${wrapper.getTotalDeliveryFee() == 0}" th:text="무료"></td>
+            <td th:text="${#dates.format(wrapper.getDelivery().getReceiptDate(), 'yyyy-MM-dd HH:mm:ss')}">
+              0000-00-00
+              00:00:00
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="modal delivery-detail-modal">
+      <div class="content">
+        <div class="content-title">
+          <h3>상품정보</h3>
+        </div>
+        <table>
+          <tbody id="product-iter-point">
+          </tbody>
+        </table>
+      </div>
+      <div class="content">
+        <div class="content-title">
+          <h3>배송정보</h3>
+        </div>
+        <table>
+          <tbody id="delivery-iter-point">
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <section class="pagination">
+    <a class="page move"
+       th:href="@{/admin/delivery/list(page=${pages.getPageable().first().getPageNumber() + 1})}"
+       th:if="${pages.hasPrevious()}"
+    >
+      <i class="fa-solid fa-angles-left"></i>
+    </a>
+    <a class="page move" th:href="@{/admin/delivery/list(page=${currentPage - 1})}"
+       th:if="${pages.hasPrevious()}">
+      <i class="fa-solid fa-chevron-left"></i>
+    </a>
+    <span th:each="pageNum : ${#numbers.sequence(1, pages.getTotalPages())}">
+            <a th:class="${currentPage == pageNum ? 'page current-page' : 'page'}"
+               th:href="@{/admin/delivery/list(page=${pageNum})}"
+               th:text="${pageNum}">1</a>
+        </span>
+    <a class="page move" th:href="@{/admin/delivery/list(page=${currentPage + 1})}"
+       th:if="${pages.hasNext()}">
+      <i class="fa-solid fa-chevron-right"></i>
+    </a>
+    <a class="page move"
+       th:href="@{/admin/delivery/list(page=${pages.getTotalPages()})}"
+       th:if="${pages.hasNext()}">
+      <i class="fa-solid fa-angles-right"></i>
+    </a>
+  </section>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>

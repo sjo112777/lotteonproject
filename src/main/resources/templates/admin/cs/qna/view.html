@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문의하기 보기</title>
+    <link rel="stylesheet" href="/style/init.css" />
+    <link rel="stylesheet" href="/style/common/admin/header.css" />
+    <link rel="stylesheet" href="/style/common/admin/aside.css" />
+    <link rel="stylesheet" href="/style/common/admin/content.css" />
+    <link rel="stylesheet" href="/style/common/admin/footer.css" />
+    <link rel="stylesheet" href="/style/admin/cs/qna/view.css" />
+    <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+    <script src="/js/admin/config/aside-drop.js"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <th:block th:insert="~{/common/admin/header}"></th:block>
+      <main>
+        <th:block th:insert="~{/common/admin/aside}"></th:block>
+        <section id="content-area">
+          <div class="content-area-title">
+            <h3>문의하기 보기</h3>
+            <span>
+              <a href="#">HOME&nbsp;>&nbsp;</a>
+              <a href="#">고객센터&nbsp;>&nbsp;</a>
+              <a href="#">문의하기</a>
+            </span>
+          </div>
+          <div class="content">
+            <form th:action="@{/admin/cs/qna/view}" method="POST" enctype="multipart/form-data" class="post-form">
+              <input type="hidden" name="qna_id" th:value="${qnaDTO.id}" />
+              <table class="post-form-table">
+                <tbody>
+                <tr>
+                  <th>유형</th>
+                  <td>
+                    <input type="text" style="border: none" name="name" th:value="${qnaDTO.name} + ' - ' + ${qnaDTO.subtype_name}" readonly/>
+                  </td>
+                </tr>
+                <tr>
+                  <th>제목</th>
+                  <td><input type="text" name="title" style="border: none" th:value="${qnaDTO.title}" readonly/></td>
+                </tr>
+                <tr>
+                  <th>내용</th>
+                  <td>
+                    <p>[[${qnaDTO.content}]]</p>
+                  </td>
+                </tr>
+                <tr>
+                  <th>답변</th>
+                  <td>
+                    <th:block th:if="${replyDTO == null}">
+                      <textarea
+                              name="content"
+                              id="notice-content"
+                              placeholder="내용을 입력합니다"
+                              style="width: 700px; height: 200px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; resize: vertical; box-sizing: border-box;"
+                      ></textarea>
+                    </th:block>
+                    <th:block th:if="${replyDTO != null}">
+                      <p th:text="${replyDTO.content}"></p>
+                    </th:block>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="crud-btn-area">
+                <a class="control-btn delete" th:href="@{/admin/cs/qna/delete(id=${qnaDTO.id})}">삭제</a>
+                <a class="control-btn default" th:href="@{/admin/cs/qna/list}">목록</a>
+                <th:block th:if="${replyDTO == null}">
+                  <input style="margin-top: 30px; margin-left: 10px;" class="post-submit-btn" type="submit" value="등록하기" />
+                </th:block>
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+      <th:block th:insert="~{/common/admin/footer}"></th:block>
+    </div>
+  </body>
+</html>

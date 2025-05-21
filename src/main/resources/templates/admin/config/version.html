@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>환경설정 > 버전관리</title>
+  <link rel="stylesheet" href="/style/init.css"/>
+  <link rel="stylesheet" href="/style/admin/index.css"/>
+  <link rel="stylesheet" href="/style/common/admin/header.css"/>
+  <link rel="stylesheet" href="/style/common/admin/footer.css"/>
+  <link rel="stylesheet" href="/style/common/admin/aside.css"/>
+  <link rel="stylesheet" href="/style/common/admin/content.css"/>
+  <link rel="stylesheet" href="/style/common/pagination.css"/>
+  <link rel="stylesheet" href="/style/admin/config/version.css"/>
+  <link
+      rel="icon"
+      href="https://static.lotteon.com/p/common/assets/favicon/1/favicon-32.png"
+  />
+  <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css"
+  />
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
+      crossorigin="anonymous"
+  ></script>
+  <script th:src="@{/js/admin/config/aside-drop.js}"></script>
+  <script th:src="@{/js/admin/config/version.js}"></script>
+  <script src="/js/common/admin/checkbox.js"></script>
+</head>
+<body>
+<div id="wrapper">
+  <th:block th:insert="~{/common/admin/header}"></th:block>
+  <main>
+    <th:block th:insert="~{/common/admin/aside}"></th:block>
+    <section id="content-area">
+      <div class="content-area-title">
+        <h3>버전관리</h3>
+        <span>
+              <a href="#">HOME&nbsp;>&nbsp; </a>
+              <a href="#">환경설정&nbsp;>&nbsp;</a>
+              <a href="#">버전관리</a>
+            </span>
+      </div>
+      <div class="content">
+        <div class="content-title">
+          <h3>버전목록</h3>
+        </div>
+        <p class="desc">사이트 버전 목록입니다</p>
+        <table class="versions">
+          <tr>
+            <th>
+              <input class="select-all" type="checkbox"/>
+            </th>
+            <th>버전</th>
+            <th>작성자</th>
+            <th>등록일시</th>
+            <th>변경내역</th>
+          </tr>
+          <tr th:each="version : ${config.getVersions()}">
+            <td>
+              <input class="item-checkbox target-version" type="checkbox"
+                     th:value="${version.get_id()}"/>
+            </td>
+            <td th:text="${version.getVersion()}">0.0.1-SNAPSHOT</td>
+            <td th:text="${version.getAuthor()}">chhak0503</td>
+            <td th:with="year=${#dates.format(version.getCreatedAt(), 'yyyy')},
+            month=${#dates.format(version.getCreatedAt(), 'MM')},
+            day=${#dates.format(version.getCreatedAt(), 'dd')},
+            hour=${#dates.format(version.getCreatedAt(), 'HH')},
+            minute=${#dates.format(version.getCreatedAt(), 'mm')},
+            second=${#dates.format(version.getCreatedAt(), 'ss')}">
+              [[${year}]]-[[${month}]]-[[${day}]] [[${hour}]]:[[${minute}]]:[[${second}]]
+            </td>
+            <td>
+              <button class="version-detail-btn" th:name="${version.getVersion()}">상세
+              </button>
+            </td>
+          </tr>
+        </table>
+        <div class="crud-btn-area">
+          <button class="enroll-btn delete-btn">선택삭제</button>
+          <button class="enroll-btn register-btn">등록</button>
+        </div>
+        <div class="version-detail" title="버전확인" style="display: none">
+          <table>
+            <tbody>
+            <tr>
+              <th>버전</th>
+              <td id="version-detail-name">0.0.1-SNAPSHOT</td>
+            </tr>
+            <tr>
+              <th>변경내역</th>
+              <td>
+                <p id="version-detail-description">
+
+                </p>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <button class="green-btn close-btn">닫기</button>
+        </div>
+        <div
+            class="version-registry"
+            title="버전확인"
+            style="display: none"
+        >
+          <form th:action="@{/admin/config/version/register}" method="POST" class="post-form">
+            <table class="post-form-table">
+              <tbody>
+              <tr>
+                <th>버전</th>
+                <td>
+                  <input type="text" name="version" placeholder="버전을 입력하세요"/>
+                </td>
+              </tr>
+              <tr>
+                <th>작성자</th>
+                <td>
+                  <input type="text" name="author" placeholder="버전을 입력하세요"/>
+                </td>
+              </tr>
+              <tr>
+                <th>변경내역</th>
+                <td>
+                      <textarea
+                          name="description"
+                          id="version-change-detail"
+                          placeholder="변경내역을 입력하세요"
+                      ></textarea>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <button type="submit" class="green-btn submit-btn">등록하기</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <th:block th:insert="~{/common/admin/footer}"></th:block>
+</div>
+</body>
+</html>
